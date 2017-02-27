@@ -54,11 +54,18 @@ void Scene::RandomScene() {
 **
 */
 bool Scene::hit(const Ray& raig, float t_min, float t_max, HitInfo& info) const {
-
+    int i_min=-1, temp_min=1000;
     for(int i=0;i<objects.size();i++){
         if(objects[i]->hit(raig,t_min,t_max,info)){
-            return true;
+            if(t_min<temp_min){
+                i_min=i;
+                temp_min=t_min;
+            }
         }
+    }
+    if(i_min!=-1){
+        objects[i_min]->hit(raig,temp_min,t_max,info);
+        return true;
     }
     return false;
     // TODO: Heu de codificar la vostra solucio per aquest metode substituint el 'return true'
