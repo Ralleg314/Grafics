@@ -33,14 +33,16 @@ Scene::~Scene()
 
 void Scene::RandomScene() {
 
-    objects.push_back(new Sphere(vec3(0, 0, -1), 0.5, new Lambertian(vec3(0.5, 0.2, 0.7))));
+    objects.push_back(new Sphere(vec3(0, 0, 2), 0.5, new Lambertian(vec3(0.5, 0.2, 0.7))));
 
 
-    objects.push_back(new Sphere(vec3(0,-1,-1), 0.5, new Lambertian(vec3(0.1, 0.2, 0.5))));
+    /*objects.push_back(new Sphere(vec3(0,-1,-1), 0.5, new Lambertian(vec3(0.1, 0.2, 0.5))));
     objects.push_back(new Sphere(vec3(1,-1,-1), 0.5, new Lambertian(vec3(0.8, 0.6, 0.2))));
     objects.push_back(new Sphere(vec3(-1,-1,-1), 0.5, new Lambertian(vec3(0.6, 0.8, 0.2))));
-    objects.push_back(new Sphere(vec3(-1,0,-1), -0.45, new Lambertian(vec3(0.2, 0.6, 0.8))));
-    objects.push_back(new Plane(vec3(0,0,1),vec3(-1,0,0),new Lambertian(vec3(0.1, 0.2, 0.5))));
+    objects.push_back(new Sphere(vec3(-1,0,-1), -0.45, new Lambertian(vec3(0.2, 0.6, 0.8))));*/
+    objects.push_back(new Plane(vec3(1,0,0),vec3(0,0,0),new Lambertian(vec3(0.1, 0.2, 0.5))));
+    objects.push_back(new Plane(vec3(0,1,0),vec3(0,0,0),new Lambertian(vec3(0.1, 0.2, 0.5))));
+    objects.push_back(new Plane(vec3(0,0,1),vec3(0,0,0),new Lambertian(vec3(0.1, 0.2, 0.5))));
 
 //    objects.push_back(new BoundaryObject("../RayTracingBase/resources/peo1K.obj", new Lambertian(vec3(0.2, 0.6, 0.8))));
 
@@ -55,21 +57,15 @@ void Scene::RandomScene() {
 **
 */
 bool Scene::hit(const Ray& raig, float t_min, float t_max, HitInfo& info) const {
-    float temp_min=1./0;
     HitInfo temp;
     for(int i=0;i<objects.size();i++){
-        if(objects[i]->hit(raig,t_min,t_max,info)){
-            if(t_min<temp_min){
-                temp=info;
-                temp_min=t_min;
+        if(objects[i]->hit(raig,t_min,t_max,temp)){
+            if(info.t>temp.t){
+                info=temp;
             }
         }
     }
-    if(temp_min<1./0){
-        info=temp;
-        return true;
-    }
-    return false;
+    return info.t!=1./0;
     // TODO: Heu de codificar la vostra solucio per aquest metode substituint el 'return true'
     // Una possible solucio es cridar el mètode hit per a tots els objectes i quedar-se amb la interseccio
     // mes propera a l'observador, en el cas que n'hi hagi més d'una.
