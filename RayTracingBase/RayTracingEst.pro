@@ -19,7 +19,8 @@ SOURCES += \
     Lambertian.cpp \
     BoundaryObject.cpp \
     ReadFile.cpp \
-    Cara.cpp
+    Cara.cpp \
+    Plane.cpp
 
 
 include(deployment.pri)
@@ -159,4 +160,5 @@ HEADERS += \
     RayTracing.h \
     BoundaryObject.h \
     ReadFile.h \
-    Cara.h
+    Cara.h \
+    Plane.h

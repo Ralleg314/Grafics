@@ -6,6 +6,7 @@
 #include "Hitable.h"
 #include "Object.h"
 #include "Sphere.h"
+#include "Plane.h"
 #include "BoundaryObject.h"
 #include "Lambertian.h"
 #include "Camera.h"

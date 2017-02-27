@@ -58,7 +58,8 @@ SOURCES       = ../RayTracingBase/RayTracing.cpp \
 		../RayTracingBase/Lambertian.cpp \
 		../RayTracingBase/BoundaryObject.cpp \
 		../RayTracingBase/ReadFile.cpp \
-		../RayTracingBase/Cara.cpp 
+		../RayTracingBase/Cara.cpp \
+		../RayTracingBase/Plane.cpp 
 OBJECTS       = RayTracing.o \
 		Scene.o \
 		Object.o \
@@ -69,7 +70,8 @@ OBJECTS       = RayTracing.o \
 		Lambertian.o \
 		BoundaryObject.o \
 		ReadFile.o \
-		Cara.o
+		Cara.o \
+		Plane.o
 DIST          = ../../../Qt/5.7/gcc_64/mkspecs/features/spec_pre.prf \
 		../../../Qt/5.7/gcc_64/mkspecs/common/unix.conf \
 		../../../Qt/5.7/gcc_64/mkspecs/common/linux.conf \
@@ -205,6 +207,7 @@ DIST          = ../../../Qt/5.7/gcc_64/mkspecs/features/spec_pre.prf \
 		../../../Qt/5.7/gcc_64/mkspecs/features/qt_config.prf \
 		../../../Qt/5.7/gcc_64/mkspecs/linux-g++/qmake.conf \
 		../../../Qt/5.7/gcc_64/mkspecs/features/spec_post.prf \
+		../RayTracingBase/.qmake.stash \
 		../../../Qt/5.7/gcc_64/mkspecs/features/exclusive_builds.prf \
 		../../../Qt/5.7/gcc_64/mkspecs/features/toolchain.prf \
 		../../../Qt/5.7/gcc_64/mkspecs/features/default_pre.prf \
@@ -351,7 +354,8 @@ DIST          = ../../../Qt/5.7/gcc_64/mkspecs/features/spec_pre.prf \
 		RayTracing.h \
 		BoundaryObject.h \
 		ReadFile.h \
-		Cara.h ../RayTracingBase/RayTracing.cpp \
+		Cara.h \
+		Plane.h ../RayTracingBase/RayTracing.cpp \
 		../RayTracingBase/Scene.cpp \
 		../RayTracingBase/Object.cpp \
 		../RayTracingBase/Camera.cpp \
@@ -361,7 +365,8 @@ DIST          = ../../../Qt/5.7/gcc_64/mkspecs/features/spec_pre.prf \
 		../RayTracingBase/Lambertian.cpp \
 		../RayTracingBase/BoundaryObject.cpp \
 		../RayTracingBase/ReadFile.cpp \
-		../RayTracingBase/Cara.cpp
+		../RayTracingBase/Cara.cpp \
+		../RayTracingBase/Plane.cpp
 QMAKE_TARGET  = RayTracingEst
 DESTDIR       = 
 TARGET        = RayTracingEst
@@ -508,6 +513,7 @@ Makefile: ../RayTracingBase/RayTracingEst.pro ../../../Qt/5.7/gcc_64/mkspecs/lin
 		../../../Qt/5.7/gcc_64/mkspecs/features/qt_config.prf \
 		../../../Qt/5.7/gcc_64/mkspecs/linux-g++/qmake.conf \
 		../../../Qt/5.7/gcc_64/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		../../../Qt/5.7/gcc_64/mkspecs/features/exclusive_builds.prf \
 		../../../Qt/5.7/gcc_64/mkspecs/features/toolchain.prf \
 		../../../Qt/5.7/gcc_64/mkspecs/features/default_pre.prf \
@@ -658,6 +664,7 @@ Makefile: ../RayTracingBase/RayTracingEst.pro ../../../Qt/5.7/gcc_64/mkspecs/lin
 ../../../Qt/5.7/gcc_64/mkspecs/features/qt_config.prf:
 ../../../Qt/5.7/gcc_64/mkspecs/linux-g++/qmake.conf:
 ../../../Qt/5.7/gcc_64/mkspecs/features/spec_post.prf:
+.qmake.stash:
 ../../../Qt/5.7/gcc_64/mkspecs/features/exclusive_builds.prf:
 ../../../Qt/5.7/gcc_64/mkspecs/features/toolchain.prf:
 ../../../Qt/5.7/gcc_64/mkspecs/features/default_pre.prf:
@@ -1397,6 +1404,9 @@ Cara.o: ../RayTracingBase/Cara.cpp ../RayTracingBase/Cara.h \
 		../RayTracingBase/glm/core/func_noise.hpp \
 		../RayTracingBase/glm/core/func_noise.inl
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Cara.o ../RayTracingBase/Cara.cpp
+
+Plane.o: ../RayTracingBase/Plane.cpp ../RayTracingBase/Plane.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Plane.o ../RayTracingBase/Plane.cpp
 
 ####### Install
 

@@ -40,6 +40,7 @@ void Scene::RandomScene() {
     objects.push_back(new Sphere(vec3(1,-1,-1), 0.5, new Lambertian(vec3(0.8, 0.6, 0.2))));
     objects.push_back(new Sphere(vec3(-1,-1,-1), 0.5, new Lambertian(vec3(0.6, 0.8, 0.2))));
     objects.push_back(new Sphere(vec3(-1,0,-1), -0.45, new Lambertian(vec3(0.2, 0.6, 0.8))));
+    objects.push_back(new Plane(vec3(0,0,1),vec3(-1,0,0),new Lambertian(vec3(0.1, 0.2, 0.5))));
 
 //    objects.push_back(new BoundaryObject("../RayTracingBase/resources/peo1K.obj", new Lambertian(vec3(0.2, 0.6, 0.8))));
 
@@ -54,17 +55,18 @@ void Scene::RandomScene() {
 **
 */
 bool Scene::hit(const Ray& raig, float t_min, float t_max, HitInfo& info) const {
-    int i_min=-1, temp_min=1000;
+    float temp_min=1./0;
+    HitInfo temp;
     for(int i=0;i<objects.size();i++){
         if(objects[i]->hit(raig,t_min,t_max,info)){
             if(t_min<temp_min){
-                i_min=i;
+                temp=info;
                 temp_min=t_min;
             }
         }
     }
-    if(i_min!=-1){
-        objects[i_min]->hit(raig,temp_min,t_max,info);
+    if(temp_min<1./0){
+        info=temp;
         return true;
     }
     return false;
