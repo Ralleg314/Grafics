@@ -44,6 +44,8 @@ void Scene::RandomScene() {
     objects.push_back(new Plane(vec3(0,1,0),vec3(0,0,0),new Lambertian(vec3(0.1, 0.2, 0.5))));
     objects.push_back(new Plane(vec3(0,0,1),vec3(0,0,0),new Lambertian(vec3(0.1, 0.2, 0.5))));
 
+    objects.push_back(new Triangle(vec3(1,0,0),vec3(0,1,0),vec3(0,0,1),new Lambertian(vec3(0.1, 0.2, 0.5))));
+
 //    objects.push_back(new BoundaryObject("../RayTracingBase/resources/peo1K.obj", new Lambertian(vec3(0.2, 0.6, 0.8))));
 
 }
@@ -65,12 +67,7 @@ bool Scene::hit(const Ray& raig, float t_min, float t_max, HitInfo& info) const 
             }
         }
     }
-    return info.t!=1./0;
-    // TODO: Heu de codificar la vostra solucio per aquest metode substituint el 'return true'
-    // Una possible solucio es cridar el mètode hit per a tots els objectes i quedar-se amb la interseccio
-    // mes propera a l'observador, en el cas que n'hi hagi més d'una.
-    // Cada vegada que s'intersecta un objecte s'ha d'actualitzar el HitInfo del raig,
-    // pero no en aquesta funcio.
+    return info.t<std::numeric_limits<float>::infinity();
 
 }
 

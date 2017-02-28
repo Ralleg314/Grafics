@@ -21,7 +21,18 @@ bool Triangle::hit(const Ray &r, float t_min, float t_max, HitInfo &rec) const{
     float s3=dot(cross((this->A-this->C),I-this->C),n);
 
     if((s1<0 && s2<0 && s3<0) || (s1>0 && s2>0 && s3>0)){
-        return true;
+        vec3 dist_vec=I-r.initialPoint();
+        float d=length(dist_vec);
+        if(t_min<d && d<t_max){
+            rec.t = lambda;
+            rec.p = I;
+            rec.normal = n;
+            rec.mat_ptr = material;
+            return true;
+        }
+        return false;
+    }else{
+        return false;
     }
 
     /*float sinCAP = sqrt(1-pow((dot(A,P))/(length(A)*length(P)),2));
