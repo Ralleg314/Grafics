@@ -16,9 +16,7 @@ bool Plane::hit(const Ray &r, float t_min, float t_max, HitInfo &rec) const{
     }
     float lambda=-(this->d+dot(this->n,r.initialPoint()))/prod;
     vec3 temp_point=r.pointAtParameter(lambda);
-    vec3 dist_vec=temp_point-r.initialPoint();
-    float d=length(dist_vec);
-    if(t_min<d && d<t_max){
+    if(t_min<lambda && lambda<t_max){
         rec.t = lambda;
         rec.p = temp_point;
         rec.normal = this->n;
