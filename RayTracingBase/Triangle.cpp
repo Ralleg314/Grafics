@@ -8,13 +8,23 @@ Triangle::Triangle(vec3 A, vec3 B, vec3 C, Material *m): Object(m)
 }
 
 bool Triangle::hit(const Ray &r, float t_min, float t_max, HitInfo &rec) const{
-    vec3 normal = cross(this->B-this->A,this->C-this->A);
-    if(abs(dot(normal,r.dirVector()))<0.00000000001){
+    vec3 n = cross(this->B-this->A,this->C-this->A)/length(cross(this->B-this->A,this->C-this->A));
+    float prod=dot(r.dirVector(),n);
+    if(abs(prod)<0.00000000001){
         return false;
     }
-    vec3 P=r.dirVector();
+    float d=-dot(n,this->A);
+    float lambda=-(d+dot(n,r.initialPoint()))/prod;
+    vec3 I=r.pointAtParameter(lambda);
+    float s1=dot(cross((this->B-this->A),I-this->A),n);
+    float s2=dot(cross((this->C-this->B),I-this->B),n);
+    float s3=dot(cross((this->A-this->C),I-this->C),n);
 
-    float sinCAP = sqrt(1-pow((dot(A,P))/(length(A)*length(P)),2));
+    if((s1<0 && s2<0 && s3<0) || (s1>0 && s2>0 && s3>0)){
+        return true;
+    }
+
+    /*float sinCAP = sqrt(1-pow((dot(A,P))/(length(A)*length(P)),2));
     float sinABC = sqrt(1-pow((dot(B,C))/(length(B)*length(C)),2));
     float sinABP = sqrt(1-pow((dot(B,P))/(length(B)*length(P)),2));
     float sinBCP = sqrt(1-pow((dot(C,P))/(length(C)*length(P)),2));
@@ -32,10 +42,7 @@ bool Triangle::hit(const Ray &r, float t_min, float t_max, HitInfo &rec) const{
     }
     else{
         return false;
-    }
-
-
-
+    }*/
 
 }
 

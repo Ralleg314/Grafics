@@ -7,18 +7,17 @@ Plane::Plane(vec3 normal, vec3 point, Material *m): Object(m)
 }
 
 bool Plane::hit(const Ray &r, float t_min, float t_max, HitInfo &rec) const{
-    float lambda;
+    //Producto escalar del vector normal del plano y del vector director del rayo
+    //Si la multiplicacion da 0, los vectores son perpendiculares, por tanto el plano y el rayo son paralelos
+    //o el rayo esta contenido en el plano. En ambos casos, consideramos que no hay hit
     float prod=dot(r.dirVector(),this->n);
-    float d;
-    vec3 temp_point;
-    vec3 dist_vec;
     if(abs(prod)<0.00000000001){
         return false;
     }
-    lambda=-(this->d+dot(this->n,r.initialPoint()))/prod;
-    temp_point=r.pointAtParameter(lambda);
-    dist_vec=temp_point-r.initialPoint();
-    d=length(dist_vec);
+    float lambda=-(this->d+dot(this->n,r.initialPoint()))/prod;
+    vec3 temp_point=r.pointAtParameter(lambda);
+    vec3 dist_vec=temp_point-r.initialPoint();
+    float d=length(dist_vec);
     if(t_min<d && d<t_max){
         rec.t = lambda;
         rec.p = temp_point;

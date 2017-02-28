@@ -59,7 +59,8 @@ SOURCES       = ../RayTracingBase/RayTracing.cpp \
 		../RayTracingBase/BoundaryObject.cpp \
 		../RayTracingBase/ReadFile.cpp \
 		../RayTracingBase/Cara.cpp \
-		../RayTracingBase/Plane.cpp 
+		../RayTracingBase/Plane.cpp \
+		../RayTracingBase/Triangle.cpp 
 OBJECTS       = RayTracing.o \
 		Scene.o \
 		Object.o \
@@ -71,7 +72,8 @@ OBJECTS       = RayTracing.o \
 		BoundaryObject.o \
 		ReadFile.o \
 		Cara.o \
-		Plane.o
+		Plane.o \
+		Triangle.o
 DIST          = ../../../Qt/5.7/gcc_64/mkspecs/features/spec_pre.prf \
 		../../../Qt/5.7/gcc_64/mkspecs/common/unix.conf \
 		../../../Qt/5.7/gcc_64/mkspecs/common/linux.conf \
@@ -355,7 +357,8 @@ DIST          = ../../../Qt/5.7/gcc_64/mkspecs/features/spec_pre.prf \
 		BoundaryObject.h \
 		ReadFile.h \
 		Cara.h \
-		Plane.h ../RayTracingBase/RayTracing.cpp \
+		Plane.h \
+		Triangle.h ../RayTracingBase/RayTracing.cpp \
 		../RayTracingBase/Scene.cpp \
 		../RayTracingBase/Object.cpp \
 		../RayTracingBase/Camera.cpp \
@@ -366,7 +369,8 @@ DIST          = ../../../Qt/5.7/gcc_64/mkspecs/features/spec_pre.prf \
 		../RayTracingBase/BoundaryObject.cpp \
 		../RayTracingBase/ReadFile.cpp \
 		../RayTracingBase/Cara.cpp \
-		../RayTracingBase/Plane.cpp
+		../RayTracingBase/Plane.cpp \
+		../RayTracingBase/Triangle.cpp
 QMAKE_TARGET  = RayTracingEst
 DESTDIR       = 
 TARGET        = RayTracingEst
@@ -790,6 +794,7 @@ RayTracing.o: ../RayTracingBase/RayTracing.cpp ../RayTracingBase/RayTracing.h \
 		../RayTracingBase/Material.h \
 		../RayTracingBase/Lambertian.h \
 		../RayTracingBase/Sphere.h \
+		../RayTracingBase/Plane.h \
 		../RayTracingBase/BoundaryObject.h \
 		../RayTracingBase/Cara.h \
 		../RayTracingBase/ReadFile.h \
@@ -865,6 +870,7 @@ Scene.o: ../RayTracingBase/Scene.cpp ../RayTracingBase/Scene.h \
 		../RayTracingBase/Material.h \
 		../RayTracingBase/Lambertian.h \
 		../RayTracingBase/Sphere.h \
+		../RayTracingBase/Plane.h \
 		../RayTracingBase/BoundaryObject.h \
 		../RayTracingBase/Cara.h \
 		../RayTracingBase/ReadFile.h \
@@ -1405,8 +1411,141 @@ Cara.o: ../RayTracingBase/Cara.cpp ../RayTracingBase/Cara.h \
 		../RayTracingBase/glm/core/func_noise.inl
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Cara.o ../RayTracingBase/Cara.cpp
 
-Plane.o: ../RayTracingBase/Plane.cpp ../RayTracingBase/Plane.h
+Plane.o: ../RayTracingBase/Plane.cpp ../RayTracingBase/Plane.h \
+		../RayTracingBase/Object.h \
+		../RayTracingBase/Ray.h \
+		../RayTracingBase/glm/glm.hpp \
+		../RayTracingBase/glm/core/_fixes.hpp \
+		../RayTracingBase/glm/core/setup.hpp \
+		../RayTracingBase/glm/core/_detail.hpp \
+		../RayTracingBase/glm/core/_vectorize.hpp \
+		../RayTracingBase/glm/core/type.hpp \
+		../RayTracingBase/glm/core/type_half.hpp \
+		../RayTracingBase/glm/core/type_half.inl \
+		../RayTracingBase/glm/core/type_float.hpp \
+		../RayTracingBase/glm/core/type_int.hpp \
+		../RayTracingBase/glm/core/type_gentype.hpp \
+		../RayTracingBase/glm/core/type_size.hpp \
+		../RayTracingBase/glm/core/type_vec1.hpp \
+		../RayTracingBase/glm/core/type_vec.hpp \
+		../RayTracingBase/glm/core/_swizzle.hpp \
+		../RayTracingBase/glm/core/_swizzle_func.hpp \
+		../RayTracingBase/glm/core/type_vec1.inl \
+		../RayTracingBase/glm/core/type_vec2.hpp \
+		../RayTracingBase/glm/core/type_vec2.inl \
+		../RayTracingBase/glm/core/type_vec3.hpp \
+		../RayTracingBase/glm/core/type_vec3.inl \
+		../RayTracingBase/glm/core/type_vec4.hpp \
+		../RayTracingBase/glm/core/type_vec4.inl \
+		../RayTracingBase/glm/core/type_mat2x2.hpp \
+		../RayTracingBase/glm/core/type_mat.hpp \
+		../RayTracingBase/glm/core/type_mat2x2.inl \
+		../RayTracingBase/glm/core/type_mat2x3.hpp \
+		../RayTracingBase/glm/core/type_mat2x3.inl \
+		../RayTracingBase/glm/core/type_mat2x4.hpp \
+		../RayTracingBase/glm/core/type_mat2x4.inl \
+		../RayTracingBase/glm/core/type_mat3x2.hpp \
+		../RayTracingBase/glm/core/type_mat3x2.inl \
+		../RayTracingBase/glm/core/type_mat3x3.hpp \
+		../RayTracingBase/glm/core/type_mat3x3.inl \
+		../RayTracingBase/glm/core/type_mat3x4.hpp \
+		../RayTracingBase/glm/core/type_mat3x4.inl \
+		../RayTracingBase/glm/core/type_mat4x2.hpp \
+		../RayTracingBase/glm/core/type_mat4x2.inl \
+		../RayTracingBase/glm/core/type_mat4x3.hpp \
+		../RayTracingBase/glm/core/type_mat4x3.inl \
+		../RayTracingBase/glm/core/type_mat4x4.hpp \
+		../RayTracingBase/glm/core/type_mat4x4.inl \
+		../RayTracingBase/glm/core/func_trigonometric.hpp \
+		../RayTracingBase/glm/core/func_trigonometric.inl \
+		../RayTracingBase/glm/core/func_exponential.hpp \
+		../RayTracingBase/glm/core/func_exponential.inl \
+		../RayTracingBase/glm/core/func_common.hpp \
+		../RayTracingBase/glm/core/func_common.inl \
+		../RayTracingBase/glm/core/func_packing.hpp \
+		../RayTracingBase/glm/core/func_packing.inl \
+		../RayTracingBase/glm/core/func_geometric.hpp \
+		../RayTracingBase/glm/core/func_geometric.inl \
+		../RayTracingBase/glm/core/func_matrix.hpp \
+		../RayTracingBase/glm/core/func_matrix.inl \
+		../RayTracingBase/glm/core/func_vector_relational.hpp \
+		../RayTracingBase/glm/core/func_vector_relational.inl \
+		../RayTracingBase/glm/core/func_integer.hpp \
+		../RayTracingBase/glm/core/func_integer.inl \
+		../RayTracingBase/glm/core/func_noise.hpp \
+		../RayTracingBase/glm/core/func_noise.inl \
+		../RayTracingBase/Hitable.h \
+		../RayTracingBase/Material.h \
+		../RayTracingBase/Lambertian.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Plane.o ../RayTracingBase/Plane.cpp
+
+Triangle.o: ../RayTracingBase/Triangle.cpp ../RayTracingBase/Triangle.h \
+		../RayTracingBase/Object.h \
+		../RayTracingBase/Ray.h \
+		../RayTracingBase/glm/glm.hpp \
+		../RayTracingBase/glm/core/_fixes.hpp \
+		../RayTracingBase/glm/core/setup.hpp \
+		../RayTracingBase/glm/core/_detail.hpp \
+		../RayTracingBase/glm/core/_vectorize.hpp \
+		../RayTracingBase/glm/core/type.hpp \
+		../RayTracingBase/glm/core/type_half.hpp \
+		../RayTracingBase/glm/core/type_half.inl \
+		../RayTracingBase/glm/core/type_float.hpp \
+		../RayTracingBase/glm/core/type_int.hpp \
+		../RayTracingBase/glm/core/type_gentype.hpp \
+		../RayTracingBase/glm/core/type_size.hpp \
+		../RayTracingBase/glm/core/type_vec1.hpp \
+		../RayTracingBase/glm/core/type_vec.hpp \
+		../RayTracingBase/glm/core/_swizzle.hpp \
+		../RayTracingBase/glm/core/_swizzle_func.hpp \
+		../RayTracingBase/glm/core/type_vec1.inl \
+		../RayTracingBase/glm/core/type_vec2.hpp \
+		../RayTracingBase/glm/core/type_vec2.inl \
+		../RayTracingBase/glm/core/type_vec3.hpp \
+		../RayTracingBase/glm/core/type_vec3.inl \
+		../RayTracingBase/glm/core/type_vec4.hpp \
+		../RayTracingBase/glm/core/type_vec4.inl \
+		../RayTracingBase/glm/core/type_mat2x2.hpp \
+		../RayTracingBase/glm/core/type_mat.hpp \
+		../RayTracingBase/glm/core/type_mat2x2.inl \
+		../RayTracingBase/glm/core/type_mat2x3.hpp \
+		../RayTracingBase/glm/core/type_mat2x3.inl \
+		../RayTracingBase/glm/core/type_mat2x4.hpp \
+		../RayTracingBase/glm/core/type_mat2x4.inl \
+		../RayTracingBase/glm/core/type_mat3x2.hpp \
+		../RayTracingBase/glm/core/type_mat3x2.inl \
+		../RayTracingBase/glm/core/type_mat3x3.hpp \
+		../RayTracingBase/glm/core/type_mat3x3.inl \
+		../RayTracingBase/glm/core/type_mat3x4.hpp \
+		../RayTracingBase/glm/core/type_mat3x4.inl \
+		../RayTracingBase/glm/core/type_mat4x2.hpp \
+		../RayTracingBase/glm/core/type_mat4x2.inl \
+		../RayTracingBase/glm/core/type_mat4x3.hpp \
+		../RayTracingBase/glm/core/type_mat4x3.inl \
+		../RayTracingBase/glm/core/type_mat4x4.hpp \
+		../RayTracingBase/glm/core/type_mat4x4.inl \
+		../RayTracingBase/glm/core/func_trigonometric.hpp \
+		../RayTracingBase/glm/core/func_trigonometric.inl \
+		../RayTracingBase/glm/core/func_exponential.hpp \
+		../RayTracingBase/glm/core/func_exponential.inl \
+		../RayTracingBase/glm/core/func_common.hpp \
+		../RayTracingBase/glm/core/func_common.inl \
+		../RayTracingBase/glm/core/func_packing.hpp \
+		../RayTracingBase/glm/core/func_packing.inl \
+		../RayTracingBase/glm/core/func_geometric.hpp \
+		../RayTracingBase/glm/core/func_geometric.inl \
+		../RayTracingBase/glm/core/func_matrix.hpp \
+		../RayTracingBase/glm/core/func_matrix.inl \
+		../RayTracingBase/glm/core/func_vector_relational.hpp \
+		../RayTracingBase/glm/core/func_vector_relational.inl \
+		../RayTracingBase/glm/core/func_integer.hpp \
+		../RayTracingBase/glm/core/func_integer.inl \
+		../RayTracingBase/glm/core/func_noise.hpp \
+		../RayTracingBase/glm/core/func_noise.inl \
+		../RayTracingBase/Hitable.h \
+		../RayTracingBase/Material.h \
+		../RayTracingBase/Lambertian.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Triangle.o ../RayTracingBase/Triangle.cpp
 
 ####### Install
 
