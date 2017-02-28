@@ -162,4 +162,4 @@ HEADERS += \
     Cara.h \
     Plane.h \
     Triangle.h \
-    cube.h
+    Cube.h

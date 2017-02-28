@@ -7,6 +7,7 @@ class Triangle: public Object
 {
 public:
     Triangle(vec3,vec3,vec3, Material *m);
+    ~Triangle() {}
     bool hit(const Ray& r, float t_min, float t_max, HitInfo& info) const;
 private:
     vec3 A;
