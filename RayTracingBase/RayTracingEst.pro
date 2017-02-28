@@ -21,7 +21,8 @@ SOURCES += \
     ReadFile.cpp \
     Cara.cpp \
     Plane.cpp \
-    Triangle.cpp
+    Triangle.cpp \
+    cube.cpp
 
 
 HEADERS += \
@@ -160,4 +161,5 @@ HEADERS += \
     ReadFile.h \
     Cara.h \
     Plane.h \
-    Triangle.h
+    Triangle.h \
+    cube.h
