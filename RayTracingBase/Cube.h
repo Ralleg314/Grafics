@@ -6,7 +6,7 @@
 class Cube : public Object
 {
 public:
-    Cube();
+    Cube(vec3 i,vec3 e, Material *m);
     ~Cube() {}
     bool hit(const Ray& r, float t_min, float t_max, HitInfo& info) const;
 private:
