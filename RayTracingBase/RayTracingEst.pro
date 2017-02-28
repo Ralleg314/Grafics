@@ -24,9 +24,6 @@ SOURCES += \
     Triangle.cpp
 
 
-include(deployment.pri)
-qtcAddDeployment()
-
 HEADERS += \
     Object.h \
     Ray.h \
