@@ -22,7 +22,7 @@ SOURCES += \
     Cara.cpp \
     Plane.cpp \
     Triangle.cpp \
-    cube.cpp
+    Cube.cpp
 
 
 HEADERS += \
