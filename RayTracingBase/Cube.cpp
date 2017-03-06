@@ -126,7 +126,7 @@ bool Cube::hit(const Ray& r, float t_min, float t_max, HitInfo& rec)const{
         vec3 p=r.pointAtParameter(tfar);
         rec.t = tfar;
         rec.p = p;
-        rec.normal = norm;
+        rec.normal = -norm;
         rec.mat_ptr = material;
     }
     return true;
