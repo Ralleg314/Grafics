@@ -17,8 +17,6 @@ BoundaryObject::~BoundaryObject() {
 }
 
 bool BoundaryObject::hit(const Ray& r, float t_min, float t_max, HitInfo& rec) const {
-
-    // TO DO: A implementar en la Fase 1
     return false;
 }
 

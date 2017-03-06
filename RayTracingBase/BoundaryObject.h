@@ -9,6 +9,7 @@
 
 #include "Object.h"
 #include "Cara.h"
+#include "Triangle.h"
 #include "ReadFile.h"
 
 using namespace std;
@@ -26,6 +27,7 @@ private:
     string nom;
     vector<Cara> cares; // cares de l'objecte
     vector<vec4> vertexs; // vertexs de l'objecte sense repetits
+    vector<Triangle> triangles;
 
     void readObj(string filename);
     void construeix_cara ( char **words, int nwords, BoundaryObject *objActual, int vindexUlt);
