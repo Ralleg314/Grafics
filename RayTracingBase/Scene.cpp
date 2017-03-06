@@ -21,8 +21,15 @@ Scene::~Scene()
 {
     for(unsigned int i = 0; i < objects.size(); ++i){
         if(objects[i]){
-            if (dynamic_cast<Sphere*>(objects[i]))
-                    delete (Sphere *)(objects[i]);
+            if (dynamic_cast<Sphere*>(objects[i])){
+                delete (Sphere *)(objects[i]);
+            }else if(dynamic_cast<Cube*>(objects[i])){
+                delete (Cube *)(objects[i]);
+            }else if(dynamic_cast<Plane*>(objects[i])){
+                delete (Plane *)(objects[i]);
+            }else if(dynamic_cast<Triangle*>(objects[i])){
+                delete (Triangle *)(objects[i]);
+            }
         }
     }
     delete cam;
@@ -43,7 +50,7 @@ void Scene::RandomScene() {
     objects.push_back(new Plane(vec3(1,0,0),vec3(0,0,0),new Lambertian(vec3(0.1, 0.2, 0.5))));
     objects.push_back(new Plane(vec3(0,1,0),vec3(0,0,0),new Lambertian(vec3(0.1, 0.2, 0.5))));
     objects.push_back(new Plane(vec3(0,0,1),vec3(0,0,0),new Lambertian(vec3(0.1, 0.2, 0.5))));
-    //objects.push_back(new Cube(vec3(0,1,1),vec3(1,0,0),new Lambertian(vec3(0.1, 0.2, 0.5))));
+    //objects.push_back(new Cube(vec3(-1,-1,-1),vec3(1,1,1),new Lambertian(vec3(0.1, 0.2, 0.5))));
 
     objects.push_back(new Triangle(vec3(1,0,0),vec3(0,1,0),vec3(0,0,1),new Lambertian(vec3(0.1, 0.2, 0.5))));
 
