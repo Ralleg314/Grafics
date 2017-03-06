@@ -8,7 +8,7 @@
 #include "Sphere.h"
 #include "Plane.h"
 #include "Triangle.h"
-#include "cube.h"
+#include "Cube.h"
 #include "BoundaryObject.h"
 #include "Lambertian.h"
 #include "Camera.h"
