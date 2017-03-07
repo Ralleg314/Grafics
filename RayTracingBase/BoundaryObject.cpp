@@ -3,13 +3,13 @@
 BoundaryObject::BoundaryObject(string s, Material *m) : Object(m)
 { 
 
-  readObj(s);
-  // TO DO: Cal fer un recorregut de totes les cares per a posar-les com Triangles
-  // Cal recorrer l'estructura de l'objecte segons cara-vertexs que es carrega
+    readObj(s);
+    // TO DO: Cal fer un recorregut de totes les cares per a posar-les com Triangles
+    // Cal recorrer l'estructura de l'objecte segons cara-vertexs que es carrega
 
 
-  vertexs.clear();
-  cares.clear();
+    vertexs.clear();
+    cares.clear();
 }
 
 BoundaryObject::~BoundaryObject() {
