@@ -10,8 +10,7 @@ public:
     ~Cube() {}
     bool hit(const Ray& r, float t_min, float t_max, HitInfo& info) const;
 private:
-    vec3 p1;
-    vec3 p2;
+    vec3 bounds[2];
 };
 
 #endif // CUBE_H

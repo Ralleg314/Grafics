@@ -1,138 +1,80 @@
 #include "Cube.h"
 
 Cube::Cube(vec3 i,vec3 e, Material *m) : Object(m){
-    this->p1=i;
-    this->p2=e;
+    this->bounds[0]=i;
+    this->bounds[1]=e;
 }
 
 bool Cube::hit(const Ray& r, float t_min, float t_max, HitInfo& rec)const{
-    float tnear = -std::numeric_limits<float>::infinity();
-    float tfar = std::numeric_limits<float>::infinity();
-    float txn,txf,tyn,tyf,tzn,tzf,temp;
-    vec3 n = normalize(r.dirVector());
-    vec3 p;
-    //Check X planes
-    if(n.x==0){//Rayo paralelo
-        if(r.initialPoint().x < p1.x || r.initialPoint().x > p2.x){
-            return false;
-        }
-    }else{//Rayo no paralelo
-        txn = (p1.x-r.initialPoint().x)/n.x;
-        txf = (p2.x-r.initialPoint().x)/n.x;
+    float tmin, tmax, txmin, txmax, tymin, tymax, tzmin, tzmax;
+    vec3 orig=r.initialPoint();
+    vec3 invdir=1.0f/r.dirVector();
+    int sign[3]={invdir.x<0,invdir.y<0,invdir.z<0};
 
-
-        if(txn>txf){
-            temp = txn;
-            txn = txf;
-            txf = temp;
-        }
-
-        if(txn>tnear)
-            tnear=txn;
-
-        if(txf<tfar)
-            tfar=txf;
-
-        if(tnear>tfar)
-            return false;
-
-        if(tfar<0)
-            return false;
-
+    txmin = (bounds[sign[0]].x - orig.x) * invdir.x;
+    txmax = (bounds[1-sign[0]].x - orig.x) * invdir.x;
+    if(txmin>txmax){
+        tmin=tmax;
+        tmax=tmin;
+    }else{
+        tmin=txmin;
+        tmax=txmax;
     }
 
-    //Check Y planes
-    if(n.y==0){//Rayo paralelo
-        if(r.initialPoint().y < p1.x || r.initialPoint().y > p2.y){
-            return false;
-        }
-    }else{//Rayo no paralelo
-        tyn = (p1.y-r.initialPoint().y)/n.y;
-        tyf = (p2.y-r.initialPoint().y)/n.y;
+    tymin = (bounds[sign[1]].y - orig.y) * invdir.y;
+    tymax = (bounds[1-sign[1]].y - orig.y) * invdir.y;
 
+    if ((tmin > tymax) || (tymin > tmax))
+    return false;
+    if (tymin > tmin)
+    tmin = tymin;
+    if (tymax < tmax)
+    tmax = tymax;
 
-        if(tyn>tyf){
-            temp = tyn;
-            tyn = tyf;
-            tyf = temp;
-        }
+    tzmin = (bounds[sign[2]].z - orig.z) * invdir.z;
+    tzmax = (bounds[1-sign[2]].z - orig.z) * invdir.z;
 
-        if(tyn>tnear)
-            tnear=tyn;
+    if ((tmin > tzmax) || (tzmin > tmax))
+    return false;
+    if (tzmin > tmin)
+    tmin = tzmin;
+    if (tzmax < tmax)
+    tmax = tzmax;
 
-        if(tyf<tfar)
-            tfar=tyf;
-
-        if(tnear>tfar)
-            return false;
-
-        if(tfar<0)
-            return false;
-    }
-
-    //Check Z planes
-    if(n.z==0){//Rayo paralelo
-        if(r.initialPoint().z < p1.z || r.initialPoint().z > p2.z){
-            return false;
-        }
-    }else{//Rayo no paralelo
-        tzn = (p1.z-r.initialPoint().z)/n.z;
-        tzf = (p2.z-r.initialPoint().z)/n.z;
-
-
-        if(tzn>tzf){
-            temp = tzn;
-            tzn = tzf;
-            tzf = temp;
-        }
-
-        if(tzn>tnear)
-            tnear=tzn;
-
-        if(tzf<tfar)
-            tfar=tzf;
-
-        if(tnear>tfar)
-            return false;
-
-        if(tfar<0)
-            return false;
-    }
-
-    if(t_min<tnear && tnear<t_max){
-        p=r.pointAtParameter(tnear);
-        rec.t = tnear;
+    if(t_min<tmin && tmin<t_max){
+        vec3 p=r.pointAtParameter(tmin);
+        rec.t = tmin;
         rec.p = p;
         rec.mat_ptr = material;
-        if(tnear==txn)
+        if(tmin==txmin)
             rec.normal=vec3(1,0,0);
-        else if(tnear==txf)
+        else if(tmin==txmax)
             rec.normal=vec3(-1,0,0);
-        else if(tnear==tyn)
+        else if(tmin==tymin)
             rec.normal=vec3(0,1,0);
-        else if(tnear==tyf)
+        else if(tmin==tymax)
             rec.normal=vec3(0,-1,0);
-        else if(tnear==tzn)
+        else if(tmin==tzmin)
             rec.normal=vec3(0,0,1);
-        else if(tnear==tzf)
+        else if(tmin==tzmax)
             rec.normal=vec3(0,0,-1);
         return true;
-    }else if(t_min<tfar && tfar<t_max){
-        p=r.pointAtParameter(tfar);
-        rec.t = tfar;
+    }else if(t_min<tmax && tmax<t_max){
+        vec3 p=r.pointAtParameter(tmax);
+        rec.t = tmax;
         rec.p = p;
         rec.mat_ptr = material;
-        if(tfar==txn)
+        if(tmax==txmin)
             rec.normal=vec3(1,0,0);
-        else if(tfar==txf)
+        else if(tmax==txmax)
             rec.normal=vec3(-1,0,0);
-        else if(tfar==tyn)
+        else if(tmax==tymin)
             rec.normal=vec3(0,1,0);
-        else if(tfar==tyf)
+        else if(tmax==tymax)
             rec.normal=vec3(0,-1,0);
-        else if(tfar==tzn)
+        else if(tmax==tzmin)
             rec.normal=vec3(0,0,1);
-        else if(tfar==tzf)
+        else if(tmax==tzmax)
             rec.normal=vec3(0,0,-1);
         return true;
     }
