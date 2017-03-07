@@ -8,8 +8,7 @@ Cube::Cube(vec3 i,vec3 e, Material *m) : Object(m){
 bool Cube::hit(const Ray& r, float t_min, float t_max, HitInfo& rec)const{
     float tnear = -std::numeric_limits<float>::infinity();
     float tfar = std::numeric_limits<float>::infinity();
-    float tol=0.000001;
-    float t1,t2,temp;
+    float txn,txf,tyn,tyf,tzn,tzf,temp;
     vec3 n = normalize(r.dirVector());
     vec3 p;
     //Check X planes
@@ -18,21 +17,21 @@ bool Cube::hit(const Ray& r, float t_min, float t_max, HitInfo& rec)const{
             return false;
         }
     }else{//Rayo no paralelo
-        t1 = (p1.x-r.initialPoint().x)/n.x;
-        t2 = (p2.x-r.initialPoint().x)/n.x;
+        txn = (p1.x-r.initialPoint().x)/n.x;
+        txf = (p2.x-r.initialPoint().x)/n.x;
 
 
-        if(t1>t2){
-            temp = t1;
-            t1 = t2;
-            t2 = temp;
+        if(txn>txf){
+            temp = txn;
+            txn = txf;
+            txf = temp;
         }
 
-        if(t1>tnear)
-            tnear=t1;
+        if(txn>tnear)
+            tnear=txn;
 
-        if(t2<tfar)
-            tfar=t2;
+        if(txf<tfar)
+            tfar=txf;
 
         if(tnear>tfar)
             return false;
@@ -48,27 +47,21 @@ bool Cube::hit(const Ray& r, float t_min, float t_max, HitInfo& rec)const{
             return false;
         }
     }else{//Rayo no paralelo
-        t1 = (p1.y-r.initialPoint().y)/n.y;
-        t2 = (p2.y-r.initialPoint().y)/n.y;
+        tyn = (p1.y-r.initialPoint().y)/n.y;
+        tyf = (p2.y-r.initialPoint().y)/n.y;
 
 
-        if(t1>t2){
-            temp = t1;
-            t1 = t2;
-            t2 = temp;
+        if(tyn>tyf){
+            temp = tyn;
+            tyn = tyf;
+            tyf = temp;
         }
 
-        if(t1>t2){
-            temp = t1;
-            t1 = t2;
-            t2 = temp;
-        }
+        if(tyn>tnear)
+            tnear=tyn;
 
-        if(t1>tnear)
-            tnear=t1;
-
-        if(t2<tfar)
-            tfar=t2;
+        if(tyf<tfar)
+            tfar=tyf;
 
         if(tnear>tfar)
             return false;
@@ -83,27 +76,21 @@ bool Cube::hit(const Ray& r, float t_min, float t_max, HitInfo& rec)const{
             return false;
         }
     }else{//Rayo no paralelo
-        t1 = (p1.z-r.initialPoint().z)/n.z;
-        t2 = (p2.z-r.initialPoint().z)/n.z;
+        tzn = (p1.z-r.initialPoint().z)/n.z;
+        tzf = (p2.z-r.initialPoint().z)/n.z;
 
 
-        if(t1>t2){
-            temp = t1;
-            t1 = t2;
-            t2 = temp;
+        if(tzn>tzf){
+            temp = tzn;
+            tzn = tzf;
+            tzf = temp;
         }
 
-        if(t1>t2){
-            temp = t1;
-            t1 = t2;
-            t2 = temp;
-        }
+        if(tzn>tnear)
+            tnear=tzn;
 
-        if(t1>tnear)
-            tnear=t1;
-
-        if(t2<tfar)
-            tfar=t2;
+        if(tzf<tfar)
+            tfar=tzf;
 
         if(tnear>tfar)
             return false;
@@ -117,24 +104,36 @@ bool Cube::hit(const Ray& r, float t_min, float t_max, HitInfo& rec)const{
         rec.t = tnear;
         rec.p = p;
         rec.mat_ptr = material;
+        if(tnear==txn)
+            rec.normal=vec3(1,0,0);
+        else if(tnear==txf)
+            rec.normal=vec3(-1,0,0);
+        else if(tnear==tyn)
+            rec.normal=vec3(0,1,0);
+        else if(tnear==tyf)
+            rec.normal=vec3(0,-1,0);
+        else if(tnear==tzn)
+            rec.normal=vec3(0,0,1);
+        else if(tnear==tzf)
+            rec.normal=vec3(0,0,-1);
+        return true;
     }else if(t_min<tfar && tfar<t_max){
         p=r.pointAtParameter(tfar);
         rec.t = tfar;
         rec.p = p;
         rec.mat_ptr = material;
+        if(tfar==txn)
+            rec.normal=vec3(1,0,0);
+        else if(tfar==txf)
+            rec.normal=vec3(-1,0,0);
+        else if(tfar==tyn)
+            rec.normal=vec3(0,1,0);
+        else if(tfar==tyf)
+            rec.normal=vec3(0,-1,0);
+        else if(tfar==tzn)
+            rec.normal=vec3(0,0,1);
+        else if(tfar==tzf)
+            rec.normal=vec3(0,0,-1);
+        return true;
     }
-
-    if(abs(p.x-this->p1.x)<tol)
-        rec.normal=vec3(-1,0,0);
-    else if(abs(p.x-this->p2.x)<tol)
-        rec.normal=vec3(1,0,0);
-    else if(abs(p.y-this->p1.y)<tol)
-        rec.normal=vec3(0,-1,0);
-    else if(abs(p.y-this->p2.y)<tol)
-        rec.normal=vec3(0,1,0);
-    else if(abs(p.z-this->p1.z)<tol)
-        rec.normal=vec3(0,0,-1);
-    else if(abs(p.z-this->p2.z)<tol)
-        rec.normal=vec3(0,0,1);
-    return true;
 }
