@@ -12,6 +12,7 @@
 #include "BoundaryObject.h"
 #include "Lambertian.h"
 #include "Camera.h"
+#include "Material.h"
 
 class Scene: public Hitable
 {

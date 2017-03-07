@@ -3,6 +3,7 @@
 Sphere::Sphere(vec3 cen, float r, Material *m) : Object(m)  {
     center = cen;
     radius = r;
+    material=m;
 }
 
 bool Sphere::hit(const Ray& r, float t_min, float t_max, HitInfo& rec) const {
@@ -31,4 +32,5 @@ bool Sphere::hit(const Ray& r, float t_min, float t_max, HitInfo& rec) const {
     }
     return false;
 }
+
 

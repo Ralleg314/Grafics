@@ -12,12 +12,14 @@ class Object: public Hitable {
     Object(Material *mat);
     virtual ~Object();
 
+
     // Metode a implementar en les classes filles: es un metode abstracte
     virtual bool hit(const Ray& r, float t_min, float t_max, HitInfo& info) const = 0;
 
 
   protected:
     Material *material;   // Material de l'objecte
+
 };
 
 // TODO: Cal definir els diferents tipus d'objectes de l'escena com a fills d'Object.
