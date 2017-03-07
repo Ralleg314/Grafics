@@ -3,7 +3,7 @@
 Scene::Scene()
 {
     // creacio de la camera
-    vec3 lookfrom(5,5,5);
+    vec3 lookfrom(5,5,4);
     vec3 lookat(0,0,0);
     float dist_to_focus = 10.0;
     float aperture = 0.1;
