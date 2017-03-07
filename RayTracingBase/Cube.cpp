@@ -8,9 +8,10 @@ Cube::Cube(vec3 i,vec3 e, Material *m) : Object(m){
 bool Cube::hit(const Ray& r, float t_min, float t_max, HitInfo& rec)const{
     float tnear = -std::numeric_limits<float>::infinity();
     float tfar = std::numeric_limits<float>::infinity();
+    float tol=0.000001;
     float t1,t2,temp;
     vec3 n = normalize(r.dirVector());
-    vec3 norm;
+    vec3 p;
     //Check X planes
     if(n.x==0){//Rayo paralelo
         if(r.initialPoint().x < p1.x || r.initialPoint().x > p2.x){
@@ -38,8 +39,6 @@ bool Cube::hit(const Ray& r, float t_min, float t_max, HitInfo& rec)const{
 
         if(tfar<0)
             return false;
-
-        norm=vec3(1,0,0);
 
     }
 
@@ -76,8 +75,6 @@ bool Cube::hit(const Ray& r, float t_min, float t_max, HitInfo& rec)const{
 
         if(tfar<0)
             return false;
-
-        norm=vec3(0,1,0);
     }
 
     //Check Z planes
@@ -113,24 +110,31 @@ bool Cube::hit(const Ray& r, float t_min, float t_max, HitInfo& rec)const{
 
         if(tfar<0)
             return false;
-
-        norm=vec3(0,0,1);
     }
-    if(tnear>0){
-        vec3 p=r.pointAtParameter(tnear);
+
+    if(t_min<tnear && tnear<t_max){
+        p=r.pointAtParameter(tnear);
         rec.t = tnear;
         rec.p = p;
-        rec.normal = norm;
         rec.mat_ptr = material;
-    }else{
-        vec3 p=r.pointAtParameter(tfar);
+    }else if(t_min<tfar && tfar<t_max){
+        p=r.pointAtParameter(tfar);
         rec.t = tfar;
         rec.p = p;
-        rec.normal = -norm;
         rec.mat_ptr = material;
     }
+
+    if(abs(p.x-this->p1.x)<tol)
+        rec.normal=vec3(-1,0,0);
+    else if(abs(p.x-this->p2.x)<tol)
+        rec.normal=vec3(1,0,0);
+    else if(abs(p.y-this->p1.y)<tol)
+        rec.normal=vec3(0,-1,0);
+    else if(abs(p.y-this->p2.y)<tol)
+        rec.normal=vec3(0,1,0);
+    else if(abs(p.z-this->p1.z)<tol)
+        rec.normal=vec3(0,0,-1);
+    else if(abs(p.z-this->p2.z)<tol)
+        rec.normal=vec3(0,0,1);
     return true;
-
-
-
 }
