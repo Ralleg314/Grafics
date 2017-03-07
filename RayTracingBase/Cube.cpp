@@ -1,4 +1,4 @@
-#include "Cube.h"
+﻿#include "Cube.h"
 
 Cube::Cube(vec3 i,vec3 e, Material *m) : Object(m){
     this->bounds[0]=i;
@@ -7,12 +7,11 @@ Cube::Cube(vec3 i,vec3 e, Material *m) : Object(m){
 
 bool Cube::hit(const Ray& r, float t_min, float t_max, HitInfo& rec)const{
     float tmin, tmax, txmin, txmax, tymin, tymax, tzmin, tzmax;
-    vec3 orig=r.initialPoint();
     vec3 invdir=1.0f/r.dirVector();
     int sign[3]={invdir.x<0,invdir.y<0,invdir.z<0};
 
-    txmin = (bounds[sign[0]].x - orig.x) * invdir.x;
-    txmax = (bounds[1-sign[0]].x - orig.x) * invdir.x;
+    txmin = (bounds[sign[0]].x - r.initialPoint().x) * invdir.x;
+    txmax = (bounds[1-sign[0]].x - r.initialPoint().x) * invdir.x;
     if(txmin>txmax){
         tmin=tmax;
         tmax=tmin;
@@ -21,8 +20,8 @@ bool Cube::hit(const Ray& r, float t_min, float t_max, HitInfo& rec)const{
         tmax=txmax;
     }
 
-    tymin = (bounds[sign[1]].y - orig.y) * invdir.y;
-    tymax = (bounds[1-sign[1]].y - orig.y) * invdir.y;
+    tymin = (bounds[sign[1]].y - r.initialPoint().y) * invdir.y;
+    tymax = (bounds[1-sign[1]].y - r.initialPoint().y) * invdir.y;
 
     if ((tmin > tymax) || (tymin > tmax))
     return false;
@@ -31,8 +30,8 @@ bool Cube::hit(const Ray& r, float t_min, float t_max, HitInfo& rec)const{
     if (tymax < tmax)
     tmax = tymax;
 
-    tzmin = (bounds[sign[2]].z - orig.z) * invdir.z;
-    tzmax = (bounds[1-sign[2]].z - orig.z) * invdir.z;
+    tzmin = (bounds[sign[2]].z - r.initialPoint().z) * invdir.z;
+    tzmax = (bounds[1-sign[2]].z - r.initialPoint().z) * invdir.z;
 
     if ((tmin > tzmax) || (tzmin > tmax))
     return false;
@@ -58,7 +57,6 @@ bool Cube::hit(const Ray& r, float t_min, float t_max, HitInfo& rec)const{
             rec.normal=vec3(0,0,1);
         else if(tmin==tzmax)
             rec.normal=vec3(0,0,-1);
-        return true;
     }else if(t_min<tmax && tmax<t_max){
         vec3 p=r.pointAtParameter(tmax);
         rec.t = tmax;
@@ -76,6 +74,6 @@ bool Cube::hit(const Ray& r, float t_min, float t_max, HitInfo& rec)const{
             rec.normal=vec3(0,0,1);
         else if(tmax==tzmax)
             rec.normal=vec3(0,0,-1);
-        return true;
     }
+    return true;
 }

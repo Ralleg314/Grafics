@@ -6,7 +6,9 @@ BoundaryObject::BoundaryObject(string s, Material *m) : Object(m)
     readObj(s);
     // TO DO: Cal fer un recorregut de totes les cares per a posar-les com Triangles
     // Cal recorrer l'estructura de l'objecte segons cara-vertexs que es carrega
-
+    for(int i=0;i<cares.size();i++){
+        triangles.push_back(new Triangle((vec3)(vertexs.at(cares.at(i).idxVertices.at(0))),(vec3)(vertexs.at(cares.at(i).idxVertices.at(1))),(vec3)(vertexs.at(cares.at(i).idxVertices.at(2))),m));
+    }
 
     vertexs.clear();
     cares.clear();
@@ -17,7 +19,15 @@ BoundaryObject::~BoundaryObject() {
 }
 
 bool BoundaryObject::hit(const Ray& r, float t_min, float t_max, HitInfo& rec) const {
-    return false;
+    HitInfo temp;
+    for(int i=0;i<triangles.size();i++){
+        if(triangles[i]->hit(r,t_min,t_max,temp)){
+            if(rec.t>temp.t){
+                rec=temp;
+            }
+        }
+    }
+    return rec.t<std::numeric_limits<float>::infinity();
 }
 
 // Llegeix un fitxer .obj

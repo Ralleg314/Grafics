@@ -4,7 +4,7 @@ Scene::Scene()
 {
     // creacio de la camera
     vec3 lookfrom(13,2,3);
-    vec3 lookat(0,0,0);
+    vec3 lookat(1,0,0);
     float dist_to_focus = 10.0;
     float aperture = 0.1;
     int pixelsX = 600;
@@ -52,6 +52,7 @@ void Scene::RandomScene() {
     //objects.push_back( new BoundaryObject("../RayTracingBase/resources/peo1K.obj",new Lambertian(vec3(0.2, 0.6, 0.8))));
 
     //objects.push_back(new Triangle(vec3(2,1,0),vec3(0,0,0),vec3(5,3,1),new Lambertian(vec3(0.1, 0.2, 0.5))));
+
 }
 
 /*
