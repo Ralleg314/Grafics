@@ -19,7 +19,10 @@ bool Plane::hit(const Ray &r, float t_min, float t_max, HitInfo &rec) const{
     if(t_min<lambda && lambda<t_max){
         rec.t = lambda;
         rec.p = temp_point;
-        rec.normal = this->n;
+        if(dot(n,r.dirVector())<0)
+            rec.normal = n;
+        else
+            rec.normal = -n;
         rec.mat_ptr = material;
         return true;
     }

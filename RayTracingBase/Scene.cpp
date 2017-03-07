@@ -3,8 +3,8 @@
 Scene::Scene()
 {
     // creacio de la camera
-    vec3 lookfrom(5,5,4);
-    vec3 lookat(0,0,0);
+    vec3 lookfrom(13,2,3);
+    vec3 lookat(1,0,0);
     float dist_to_focus = 10.0;
     float aperture = 0.1;
     int pixelsX = 600;
@@ -40,20 +40,9 @@ Scene::~Scene()
 
 void Scene::RandomScene() {
 
-    objects.push_back(new Sphere(vec3(0, 0, 0.75), 0.5, new Lambertian(vec3(0.5, 0.2, 0.7))));
-
-
-    /*objects.push_back(new Sphere(vec3(0,-1,-1), 0.5, new Lambertian(vec3(0.1, 0.2, 0.5))));
-    objects.push_back(new Sphere(vec3(1,-1,-1), 0.5, new Lambertian(vec3(0.8, 0.6, 0.2))));
-    objects.push_back(new Sphere(vec3(-1,-1,-1), 0.5, new Lambertian(vec3(0.6, 0.8, 0.2))));
-    objects.push_back(new Sphere(vec3(-1,0,-1), -0.45, new Lambertian(vec3(0.2, 0.6, 0.8))));*/
-    objects.push_back(new Plane(vec3(1,0,0),vec3(0,0,0),new Lambertian(vec3(0.1, 0.2, 0.5))));
-    objects.push_back(new Plane(vec3(0,1,0),vec3(0,0,0),new Lambertian(vec3(0.1, 0.2, 0.5))));
-    objects.push_back(new Plane(vec3(0,0,1),vec3(0,0,0),new Lambertian(vec3(0.1, 0.2, 0.5))));
-    objects.push_back(new Cube(vec3(-1,-1,-1),vec3(1,1,1),new Lambertian(vec3(0.1, 0.2, 0.5))));
+    objects.push_back(new Sphere(vec3(0, 0, -1), 0.5, new Lambertian(vec3(0.5, 0.5, 0.5))));
+    objects.push_back(new Sphere(vec3(0,-100.5,-1),100, new Lambertian(vec3(0.8, 0.8, 0))));
     //objects.push_back( new BoundaryObject("../RayTracingBase/resources/peo1K.obj",new Lambertian(vec3(0.2, 0.6, 0.8))));
-
-    objects.push_back(new Triangle(vec3(2,1,0),vec3(0,0,0),vec3(5,3,1),new Lambertian(vec3(0.1, 0.2, 0.5))));
 }
 
 /*
