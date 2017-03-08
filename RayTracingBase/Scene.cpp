@@ -7,8 +7,8 @@ Scene::Scene()
     vec3 lookat(1,0,0);
     float dist_to_focus = 10.0;
     float aperture = 0.1;
-    int pixelsX = 600;
-    int pixelsY = 400;
+    int pixelsX = 900;
+    int pixelsY = 600;
     cam = new Camera(lookfrom, lookat, vec3(0,1,0), 20, pixelsX, pixelsY, aperture, dist_to_focus);
 
    // TODO: Cal crear els objectes de l'escena
@@ -103,7 +103,7 @@ vec3 Scene::ComputeColor (Ray &ray, int depth ) {
      if(!this->hit(ray,0,1000,h)){
         color = t*blue+(1-t)*white;
      }else{
-         color=h.mat_ptr->diffuse;
+         color=sqrt(h.mat_ptr->diffuse);
      }
 
      return color;

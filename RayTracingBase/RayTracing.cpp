@@ -10,6 +10,7 @@
 #include "RayTracing.h"
 #include "stdio.h"
 
+
 using namespace std;
 
 // Metode per netejar la memòria
@@ -55,16 +56,20 @@ void Render()
     // algorisme de RayTracing
 
     // Recorregut de cada pixel de la imatge final
+    int numSamples=1;
+
     for (int y = scene->cam->viewportY-1; y >= 0; y--) {
          for (int x = 0; x < scene->cam->viewportX; x++) {
-
+            for(int i=0;i<numSamples;i++){
+            float rnd = ((float) rand()) / (float) 2147483648;
             vec3 col(0, 0, 0);
-            float u = float(x) / float(scene->cam->viewportX);//Normalizamos el vector
-            float v = float(y) / float(scene->cam->viewportY);
+            float u = float(x+rnd) / float(scene->cam->viewportX);//Normalizamos el vector
+            float v = float(y+rnd) / float(scene->cam->viewportY);
 
             Ray r = scene->cam->getRay(u, v);
-
             col += scene->ComputeColor(r,0);
+
+
 #ifdef GLUT
             float pixelX =  2*((x+0.5f)/scene->cam->viewportX)-1;
             float pixelY = 2*((y+0.5f)/scene->cam->viewportY)-1;
@@ -78,7 +83,7 @@ void Render()
              int ib = int(255.99*col[2]);
              std::cout << ir << " " << ig << " " << ib << "\n";
 #endif
-        }
+        }}
      }
 #ifdef GLUT
     glEnd();
