@@ -6,12 +6,15 @@
 class Light
 {
 public:
-    Light(/*vec3*/);/*
-    vec3 ambient_color;
-    vec3 diffuse_color;
-    vec3 specular_color;
-    vec3 position;*/
-
+    Light(vec3 position, vec3 ambient, vec3 diffuse, vec3 specular, float a, float b, float c);
+private:
+    vec3 position;
+    vec3 ambient;
+    vec3 diffuse;
+    vec3 specular;
+    float a;
+    float b;
+    float c;
 };
 
 #endif // LIGHT_H

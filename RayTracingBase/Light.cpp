@@ -1,12 +1,14 @@
 #include "Light.h"
 
-Light::Light(/*vec3 pos*/)
+Light::Light(vec3 position, vec3 ambient,vec3 diffuse, vec3 specular, float a, float b,float c)
 {
-    /*position=pos;
-    ambient_color = vec3(0.2, 0.0, 0.0);
-    diffuse_color = vec3(0.6, 0.0, 0.0);
-    specular_color = vec3(1.0, 1.0, 1.0);*/
-
+    this->position=position;
+    this->ambient=ambient;
+    this->diffuse=diffuse;
+    this->specular=specular;
+    this->a=a;
+    this->b=b;
+    this->c=c;
 }
 
 

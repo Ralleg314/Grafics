@@ -18,6 +18,7 @@ class Scene: public Hitable
 {
 public:
     Scene();
+
     virtual ~Scene();
 
     // Funcio que calcula la interseccio del raig r amb l'escena. Guarda la informacio
