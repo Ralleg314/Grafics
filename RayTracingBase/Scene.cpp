@@ -29,6 +29,8 @@ Scene::~Scene()
                 delete (Plane *)(objects[i]);
             }else if(dynamic_cast<Triangle*>(objects[i])){
                 delete (Triangle *)(objects[i]);
+            }else if(dynamic_cast<BoundaryObject*>(objects[i])){
+                delete (BoundaryObject *)(objects[i]);
             }
         }
     }

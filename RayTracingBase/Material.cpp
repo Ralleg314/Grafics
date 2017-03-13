@@ -6,6 +6,22 @@ Material::Material():
     diffuse(1.0f)
   {}
 
+Material::Material(vec3 diffuse, vec3 specular, vec3 ambient, int shiness){
+    this->diffuse=diffuse;
+    this->specular=specular;
+    this->ambient=ambient;
+    this->opacity=1;
+    this->shiness=shiness;
+}
+
+Material::Material(vec3 diffuse, vec3 specular, vec3 ambient, float opacity, int shiness){
+    this->diffuse=diffuse;
+    this->specular=specular;
+    this->ambient=ambient;
+    this->opacity=opacity;
+    this->shiness=shiness;
+}
+
 Material::~Material()
 {}
 
