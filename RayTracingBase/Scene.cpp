@@ -117,5 +117,18 @@ void Scene::setAmbientLight(vec3 ambient){
 }
 
 vec3 Scene::blinnPhong(vec3 point,vec3 normal,const Material *material,bool ombra){
-    return ;
+    vec3 I;
+    vec3 kd = material->diffuse;
+    vec3 ks = material->specular;
+    vec3 ka = material->ambient;
+    vec3 Id = lights[0]->diffuse;
+    vec3 Is = lights[0]->specular;
+    vec3 Ia = lights[0]->ambient;
+    vec3 l = lights[0]->position-point;
+    vec3 v = cam->origin-point;
+    vec3 h=normalize(l+v);
+    int s = material->shiness;
+
+    I = kd*Id*l*normal+ks*Is*pow((normal*h),s)+ka * Ia;
+    return I;
 }
