@@ -15,6 +15,7 @@ Scene::Scene()
     RandomScene();
 
     // TODO: Cal afegir llums a l'escena (Fase 2)
+    lights.push_back(new Light(vec3(2,8,10),vec3(0.4,0.4,0.4),vec3(0.5,0.5,0.5),vec3(1.0,1.0,1.0),0.05,0.0,0.01));
 }
 
 Scene::~Scene()
@@ -109,6 +110,10 @@ vec3 Scene::ComputeColor (Ray &ray, int depth ) {
      }
 
      return color;
+}
+
+void Scene::setAmbientLight(vec3 ambient){
+
 }
 
 vec3 Scene::blinnPhong(vec3 point,vec3 normal,const Material *material,bool ombra){

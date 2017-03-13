@@ -9,6 +9,7 @@
 #include "Plane.h"
 #include "Triangle.h"
 #include "Cube.h"
+#include "Light.h"
 #include "BoundaryObject.h"
 #include "Lambertian.h"
 #include "Camera.h"
@@ -34,10 +35,14 @@ public:
     // Vector d'objectes continguts a l'escena
     std::vector<Object*> objects;
 
+    //Vector de llums continguts a l'escena
+    std::vector<Light*> lights;
+
     // Camera: on está l'observador
     Camera *cam;
 
     vec3 blinnPhong(vec3 point,vec3 normal,const Material *material,bool ombra);
+    void setAmbientLight(vec3);
 
 private:
     void RandomScene();
