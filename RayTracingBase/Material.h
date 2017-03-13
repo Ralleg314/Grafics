@@ -15,7 +15,7 @@ public:
     Material(vec3, vec3, vec3, float, int);
     ~Material();
 
-    virtual bool scatter(const Ray& r_in, const HitInfo& rec, vec3& color, Ray& scattered) const = 0;
+    //virtual bool scatter(const Ray& r_in, const HitInfo& rec, vec3& color, Ray& scattered) const = 0;
 
     vec3 diffuse;
     vec3 specular;
