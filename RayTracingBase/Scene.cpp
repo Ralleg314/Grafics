@@ -43,8 +43,8 @@ Scene::~Scene()
 
 void Scene::RandomScene() {
 
-    objects.push_back(new Sphere(vec3(0, 0, -1), 0.5, new Lambertian(vec3(0.5, 0.5, 0.5))));
-    objects.push_back(new Sphere(vec3(0,-100.5,-1), 100, new Lambertian(vec3(0.8, 0.8, 0.0))));
+    objects.push_back(new Sphere(vec3(0, 0, -1), 0.5, new Material(vec3(0.5, 0.5, 0.5),vec3(0.2,0.2,0.2),vec3(1.0,1.0,1.0),10)));
+    objects.push_back(new Sphere(vec3(0,-100.5,-1), 100, new Material(vec3(0.8, 0.8, 0.0),vec3(0.2,0.2,0.2),vec3(1.0,1.0,1.0),10)));
     //objects.push_back(new Sphere(vec3(1,-1,-1), 0.5, new Lambertian(vec3(0.8, 0.6, 0.2))));
     //objects.push_back(new Sphere(vec3(-1,-1,-1), 0.5, new Lambertian(vec3(0.6, 0.8, 0.2))));
     //objects.push_back(new Sphere(vec3(-1,0,-1), -0.45, new Lambertian(vec3(0.2, 0.6, 0.8))));
@@ -117,6 +117,7 @@ void Scene::setAmbientLight(vec3 ambient){
 }
 
 vec3 Scene::blinnPhong(vec3 point,vec3 normal,const Material *material,bool ombra){
+<<<<<<< HEAD
     vec3 I;
     vec3 kd = material->diffuse;
     vec3 ks = material->specular;
@@ -131,4 +132,7 @@ vec3 Scene::blinnPhong(vec3 point,vec3 normal,const Material *material,bool ombr
 
     I = kd*Id*l*normal+ks*Is*pow((normal*h),s)+ka * Ia;
     return I;
+=======
+    return vec3(0,0,0);
+>>>>>>> d6bc7b5483967961d8ea18b098d5e5073367a3e8
 }
