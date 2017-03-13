@@ -37,6 +37,8 @@ public:
     // Camera: on está l'observador
     Camera *cam;
 
+    vec3 blinnPhong(vec3 point,vec3 normal,const Material *material,bool ombra);
+
 private:
     void RandomScene();
 

@@ -111,3 +111,6 @@ vec3 Scene::ComputeColor (Ray &ray, int depth ) {
      return color;
 }
 
+vec3 Scene::blinnPhong(vec3 point,vec3 normal,const Material *material,bool ombra){
+    return ;
+}
