@@ -122,7 +122,7 @@ void Scene::setAmbientLight(vec3 ambient){
 }
 
 vec3 Scene::blinnPhong(vec3 point, vec3 normal, const Material *material, bool ombra){
-    vec3 I;
+    vec3 I=vec3(0,0,0);
     vec3 Kd = material->diffuse;
     vec3 Ks = material->specular;
     vec3 Ka = material->ambient;
@@ -131,7 +131,7 @@ vec3 Scene::blinnPhong(vec3 point, vec3 normal, const Material *material, bool o
     vec3 Ia;
     vec3 L;
     vec3 V = normalize(cam->origin-point);
-    vec3 H = normalize(L+V);
+    vec3 H;
     int S = material->shiness;
     float atenuacio;
     for(int i=0;i<lights.size();i++){
@@ -139,7 +139,8 @@ vec3 Scene::blinnPhong(vec3 point, vec3 normal, const Material *material, bool o
         vec3 Is = lights.at(i)->specular;
         vec3 Ia = lights.at(i)->ambient;
         L = normalize(lights.at(i)->position-point);
-        atenuacio=lights.at(i)->a+lights.at(i)->c*std::pow(length(lights.at(i)->position-point),2);
+        H = normalize(L+V);
+        atenuacio=1./(lights.at(i)->a+lights.at(i)->c*std::pow(length(lights.at(i)->position-point),2));
         I+=atenuacio*(Ka*Ia+(Kd*Id)*std::max(dot(L,normal),float(0))+(Ks*Is)*float(std::pow(std::max(dot(normal,H),float(0)),S)));
     }
 
