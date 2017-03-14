@@ -23,7 +23,9 @@ SOURCES += \
     Plane.cpp \
     Triangle.cpp \
     Cube.cpp \
-    Light.cpp
+    Light.cpp \
+    Metal.cpp \
+    Transparent.cpp
 
 
 HEADERS += \
@@ -164,4 +166,6 @@ HEADERS += \
     Plane.h \
     Triangle.h \
     Cube.h \
-    Light.h
+    Light.h \
+    Metal.h \
+    Transparent.h
