@@ -108,10 +108,10 @@ vec3 Scene::ComputeColor (Ray &ray, int depth ) {
          color = t*blue+(1-t)*white;
      }else{
          color = this->blinnPhong(h.p,h.normal,h.mat_ptr,true);
-         if(depth<10){
+         /*if(depth<10){
              h.mat_ptr->scatter(ray,h,scatterColor,scatterRay);
              color += scatterColor * this->ComputeColor(scatterRay,depth+1);
-         }
+         }*/
      }
 
      return color;
@@ -135,5 +135,5 @@ vec3 Scene::blinnPhong(vec3 point, vec3 normal, const Material *material, bool o
     int S = material->shiness;
 
     I = Ka*Ia+(Kd*Id)*dot(L,normal)+(Ks*Is)*(float)std::pow(dot(normal,H),S);
-    return I;
+    return (Ks*Is)*dot(normal,H);
 }
