@@ -1,5 +1,5 @@
 
-/* 
+/*
  * File:   RayTracing.cpp
  * Author: anna
  *
@@ -107,20 +107,20 @@ int main(int argc, char **argv) {
 #ifdef GLUT
 
     //inicialitza OpenGL
-	glutInit(&argc, argv);
+    glutInit(&argc, argv);
     //Define la mida de la window GL especificada per la mida del viewport
     glutInitWindowSize(scene->cam->viewportX, scene->cam->viewportY);
 
     //Creacio de la window per pintar amb GL
-	glutCreateWindow("RayTracer");
-	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);	
+    glutCreateWindow("RayTracer");
+    glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
 
     //Posa la funcio Render per a que la window GL cridi quan es refresca
-	glutDisplayFunc(Render);
-	atexit(cleanup);
+    glutDisplayFunc(Render);
+    atexit(cleanup);
 
     // Inicia el main loop per a poder refrescar l'escena
-	glutMainLoop();
+    glutMainLoop();
 #else
     Render();
 #endif

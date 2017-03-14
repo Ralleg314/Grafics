@@ -130,12 +130,12 @@ vec3 Scene::blinnPhong(vec3 point, vec3 normal, const Material *material, bool o
     vec3 Id;
     vec3 Is;
     vec3 Ia;
-    vec3 L;
+    vec3 L; //Vector del punto a la luz
     vec3 V = normalize(cam->origin-point);
-    vec3 H;
-    vec3 A;
-    vec3 D;
-    vec3 S;
+    vec3 H; //L+V/|L+V|
+    vec3 A; //Componente Ambiente
+    vec3 D; //Componente Difusa
+    vec3 S; //Componente Especular
     Ray* temp;
     HitInfo info;
     int Sh = material->shiness;
@@ -150,12 +150,13 @@ vec3 Scene::blinnPhong(vec3 point, vec3 normal, const Material *material, bool o
         A=Ka*Ia;
         D=(Kd*Id)*std::max(dot(L,normal),float(0));
         S=(Ks*Is)*float(std::pow(std::max(dot(normal,H),float(0)),Sh));
-        temp=new Ray(point,lights.at(i)->position-point);
-        if(this->hit(*temp,0,1,info) && ombra){
+        temp=new Ray(point,L);
+        if(this->hit(*temp,0,100,info) && ombra){
             I+=atenuacio*A;
         }else{
             I+=atenuacio*(A+D+S);
         }
+        delete(temp);
     }
 
     I += ambientLight*Ka;
