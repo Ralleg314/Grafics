@@ -135,5 +135,5 @@ vec3 Scene::blinnPhong(vec3 point, vec3 normal, const Material *material, bool o
     int S = material->shiness;
 
     I = Ka*Ia+(Kd*Id)*dot(L,normal)+(Ks*Is)*(float)std::pow(dot(normal,H),S);
-    return (Ks*Is)*dot(normal,H);
+    return (Ks*Is)*float(std::pow(dot(normal,H),10));
 }
