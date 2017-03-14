@@ -136,6 +136,8 @@ vec3 Scene::blinnPhong(vec3 point, vec3 normal, const Material *material, bool o
     vec3 A;
     vec3 D;
     vec3 S;
+    Ray* temp;
+    HitInfo info;
     int Sh = material->shiness;
     float atenuacio;
     for(int i=0;i<lights.size();i++){
@@ -148,7 +150,12 @@ vec3 Scene::blinnPhong(vec3 point, vec3 normal, const Material *material, bool o
         A=Ka*Ia;
         D=(Kd*Id)*std::max(dot(L,normal),float(0));
         S=(Ks*Is)*float(std::pow(std::max(dot(normal,H),float(0)),Sh));
-        I+=atenuacio*(A+D+S);
+        temp=new Ray(point,lights.at(i)->position-point);
+        if(this->hit(*temp,0,1,info) && ombra){
+            I+=atenuacio*A;
+        }else{
+            I+=atenuacio*(A+D+S);
+        }
     }
 
     I += ambientLight*Ka;
