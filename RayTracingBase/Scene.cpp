@@ -130,12 +130,12 @@ vec3 Scene::blinnPhong(vec3 point, vec3 normal, const Material *material, bool o
     vec3 Id;
     vec3 Is;
     vec3 Ia;
-    vec3 L; //Vector del punto a la luz
+    vec3 L; // Vector del punto a la luz
     vec3 V = normalize(cam->origin-point);
-    vec3 H; //L+V/|L+V|
-    vec3 A; //Componente Ambiente
-    vec3 D; //Componente Difusa
-    vec3 S; //Componente Especular
+    vec3 H; // L+V/|L+V|
+    vec3 A; // Componente Ambiente
+    vec3 D; // Componente Difusa
+    vec3 S; // Componente Especular
     Ray* temp;
     HitInfo info;
     int Sh = material->shiness;
