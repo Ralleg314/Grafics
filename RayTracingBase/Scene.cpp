@@ -15,7 +15,7 @@ Scene::Scene()
     RandomScene();
 
     // TODO: Cal afegir llums a l'escena (Fase 2)
-    lights.push_back(new Light(vec3(2,8,10),vec3(0.4,0.4,0.4),vec3(0.5,0.5,0.5),vec3(1.0,1.0,1.0),0.05,0.0,0.01));
+    lights.push_back(new Light(vec3(2,8,10),vec3(0.4,0.4,0.4),vec3(0.5,0.5,0.5),vec3(1.0,1.0,1.0),0.5,0.0,0.01));
 }
 
 Scene::~Scene()
@@ -43,8 +43,8 @@ Scene::~Scene()
 
 void Scene::RandomScene() {
 
-    objects.push_back(new Sphere(vec3(0, 0, -1), 0.5, new Lambertian(vec3(0.5, 0.5, 0.5))));
-    objects.push_back(new Sphere(vec3(0,-100.5,-1), 100, new Lambertian(vec3(0.8, 0.8, 0.0))));
+    objects.push_back(new Sphere(vec3(0, 0, -1), 0.5, new Lambertian(vec3(0.5, 0.5, 0.5),vec3(0.2,0.2,0.2),vec3(1.0,1.0,1.0),10.0)));
+    objects.push_back(new Sphere(vec3(0,-100.5,-1), 100, new Lambertian(vec3(0.8, 0.8, 0.0),vec3(0.2,0.2,0.2),vec3(1.0,1.0,1.0),10.0)));
     //objects.push_back(new Sphere(vec3(1,-1,-1), 0.5, new Lambertian(vec3(0.8, 0.6, 0.2))));
     //objects.push_back(new Sphere(vec3(-1,-1,-1), 0.5, new Lambertian(vec3(0.6, 0.8, 0.2))));
     //objects.push_back(new Sphere(vec3(-1,0,-1), -0.45, new Lambertian(vec3(0.2, 0.6, 0.8))));
@@ -126,14 +126,23 @@ vec3 Scene::blinnPhong(vec3 point, vec3 normal, const Material *material, bool o
     vec3 Kd = material->diffuse;
     vec3 Ks = material->specular;
     vec3 Ka = material->ambient;
-    vec3 Id = lights.at(0)->diffuse;
-    vec3 Is = lights.at(0)->specular;
-    vec3 Ia = lights.at(0)->ambient;
-    vec3 L = normalize(lights.at(0)->position-point);
+    vec3 Id;
+    vec3 Is;
+    vec3 Ia;
+    vec3 L;
     vec3 V = normalize(cam->origin-point);
     vec3 H = normalize(L+V);
     int S = material->shiness;
+    float atenuacio;
+    for(int i=0;i<lights.size();i++){
+        vec3 Id = lights.at(i)->diffuse;
+        vec3 Is = lights.at(i)->specular;
+        vec3 Ia = lights.at(i)->ambient;
+        L = normalize(lights.at(i)->position-point);
+        atenuacio=lights.at(i)->a+lights.at(i)->c*std::pow(length(lights.at(i)->position-point),2);
+        I+=atenuacio*(Ka*Ia+(Kd*Id)*std::max(dot(L,normal),float(0))+(Ks*Is)*float(std::pow(std::max(dot(normal,H),float(0)),S)));
+    }
 
-    I = Ka*Ia+(Kd*Id)*dot(L,normal)+(Ks*Is)*float(std::pow(dot(normal,H),10));
+    I += ambientLight*Ka;
     return I;
 }

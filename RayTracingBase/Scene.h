@@ -29,7 +29,7 @@ public:
     // Funcio recursiva que calcula el color. Inicialment es
     // es crida a cada pixel. Tambe es crida en calcular les ombres o les reflexions.
     vec3 ComputeColor (Ray &ray, int depth );
-
+    vec3 ambientLight;
 
 
     // Vector d'objectes continguts a l'escena
