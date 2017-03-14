@@ -15,6 +15,7 @@ Scene::Scene()
     RandomScene();
 
     // TODO: Cal afegir llums a l'escena (Fase 2)
+    setAmbientLight(vec3(0.01,0.01,0.01));
     lights.push_back(new Light(vec3(2,8,10),vec3(0.4,0.4,0.4),vec3(0.5,0.5,0.5),vec3(1.0,1.0,1.0),0.5,0.0,0.01));
 }
 
@@ -118,7 +119,7 @@ vec3 Scene::ComputeColor (Ray &ray, int depth ) {
 }
 
 void Scene::setAmbientLight(vec3 ambient){
-
+    ambientLight=ambient;
 }
 
 vec3 Scene::blinnPhong(vec3 point, vec3 normal, const Material *material, bool ombra){
@@ -132,7 +133,10 @@ vec3 Scene::blinnPhong(vec3 point, vec3 normal, const Material *material, bool o
     vec3 L;
     vec3 V = normalize(cam->origin-point);
     vec3 H;
-    int S = material->shiness;
+    vec3 A;
+    vec3 D;
+    vec3 S;
+    int Sh = material->shiness;
     float atenuacio;
     for(int i=0;i<lights.size();i++){
         vec3 Id = lights.at(i)->diffuse;
@@ -141,7 +145,10 @@ vec3 Scene::blinnPhong(vec3 point, vec3 normal, const Material *material, bool o
         L = normalize(lights.at(i)->position-point);
         H = normalize(L+V);
         atenuacio=1./(lights.at(i)->a+lights.at(i)->c*std::pow(length(lights.at(i)->position-point),2));
-        I+=atenuacio*(Ka*Ia+(Kd*Id)*std::max(dot(L,normal),float(0))+(Ks*Is)*float(std::pow(std::max(dot(normal,H),float(0)),S)));
+        A=Ka*Ia;
+        D=(Kd*Id)*std::max(dot(L,normal),float(0));
+        S=(Ks*Is)*float(std::pow(std::max(dot(normal,H),float(0)),Sh));
+        I+=atenuacio*(A+D+S);
     }
 
     I += ambientLight*Ka;
