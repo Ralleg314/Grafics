@@ -43,8 +43,8 @@ Scene::~Scene()
 
 void Scene::RandomScene() {
 
-    objects.push_back(new Sphere(vec3(0, 0, -1), 0.5, new Metal(vec3(0.5, 0.5, 0.5),vec3(0.2,0.2,0.2),vec3(1.0,1.0,1.0),10)));
-    objects.push_back(new Sphere(vec3(0,-100.5,-1), 100, new Metal(vec3(0.8, 0.8, 0.0),vec3(0.2,0.2,0.2),vec3(1.0,1.0,1.0),10)));
+    objects.push_back(new Sphere(vec3(0, 0, -1), 0.5, new Lambertian(vec3(0.5, 0.5, 0.5))));
+    objects.push_back(new Sphere(vec3(0,-100.5,-1), 100, new Lambertian(vec3(0.8, 0.8, 0.0))));
     //objects.push_back(new Sphere(vec3(1,-1,-1), 0.5, new Lambertian(vec3(0.8, 0.6, 0.2))));
     //objects.push_back(new Sphere(vec3(-1,-1,-1), 0.5, new Lambertian(vec3(0.6, 0.8, 0.2))));
     //objects.push_back(new Sphere(vec3(-1,0,-1), -0.45, new Lambertian(vec3(0.2, 0.6, 0.8))));
@@ -92,7 +92,8 @@ vec3 Scene::ComputeColor (Ray &ray, int depth ) {
     vec3 blue=vec3(0.5,0.7,1);
     float t=0.5f*(ray.direction.y+1);
     HitInfo h;
-
+    Ray scatterRay;
+    vec3 scatterColor;
     vec3 color;
 
 
@@ -104,9 +105,13 @@ vec3 Scene::ComputeColor (Ray &ray, int depth ) {
        hitInfo ha d'anar tenint el color actualitzat segons els rebots.
     */
      if(!this->hit(ray,0,1000,h)){
-        color = t*blue+(1-t)*white;
+         color = t*blue+(1-t)*white;
      }else{
-         color=sqrt(h.mat_ptr->diffuse);
+         color = this->blinnPhong(h.p,h.normal,h.mat_ptr,true);
+         if(depth<10){
+             h.mat_ptr->scatter(ray,h,scatterColor,scatterRay);
+             color += scatterColor * this->ComputeColor(scatterRay,depth+1);
+         }
      }
 
      return color;
@@ -116,7 +121,7 @@ void Scene::setAmbientLight(vec3 ambient){
 
 }
 
-vec3 Scene::blinnPhong(vec3 point,vec3 normal,const Material *material,bool ombra){
+vec3 Scene::blinnPhong(vec3 point, vec3 normal, const Material *material, bool ombra){
     vec3 I;
     vec3 Kd = material->diffuse;
     vec3 Ks = material->specular;
