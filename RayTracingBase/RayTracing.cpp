@@ -56,12 +56,13 @@ void Render()
     // algorisme de RayTracing
 
     // Recorregut de cada pixel de la imatge final
-    int numSamples=1;
-
+    int numSamples=10;
+    float rnd=0.0;
     for (int y = scene->cam->viewportY-1; y >= 0; y--) {
          for (int x = 0; x < scene->cam->viewportX; x++) {
             for(int i=0;i<numSamples;i++){
-            float rnd = ((float) rand()) / (float) 2147483648;
+            rnd = rnd + ((float) rand()) / (float) 2147483648;}
+            rnd=rnd/numSamples;
             vec3 col(0, 0, 0);
             float u = float(x+rnd) / float(scene->cam->viewportX);//Normalizamos el vector
             float v = float(y+rnd) / float(scene->cam->viewportY);
@@ -83,7 +84,8 @@ void Render()
              int ib = int(255.99*col[2]);
              std::cout << ir << " " << ig << " " << ib << "\n";
 #endif
-        }}
+        rnd=0.0;
+        }
      }
 #ifdef GLUT
     glEnd();
