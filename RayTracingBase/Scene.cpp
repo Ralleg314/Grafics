@@ -9,6 +9,7 @@ Scene::Scene()
     float aperture = 0.1;
     int pixelsX = 600;
     int pixelsY = 400;
+    MAXDEPTH = 1;
     cam = new Camera(lookfrom, lookat, vec3(0,1,0), 20, pixelsX, pixelsY, aperture, dist_to_focus);
 
    // TODO: Cal crear els objectes de l'escena
@@ -109,10 +110,10 @@ vec3 Scene::ComputeColor (Ray &ray, int depth ) {
          color = t*blue+(1-t)*white;
      }else{
          color = this->blinnPhong(h.p,h.normal,h.mat_ptr,true);
-         /*if(depth<10){
+         if(depth<MAXDEPTH){
              h.mat_ptr->scatter(ray,h,scatterColor,scatterRay);
              color += scatterColor * this->ComputeColor(scatterRay,depth+1);
-         }*/
+         }
      }
 
      return color;
@@ -151,7 +152,7 @@ vec3 Scene::blinnPhong(vec3 point, vec3 normal, const Material *material, bool o
         D=(Kd*Id)*std::max(dot(L,normal),float(0));
         S=(Ks*Is)*float(std::pow(std::max(dot(normal,H),float(0)),Sh));
         temp=new Ray(point,L);
-        if(this->hit(*temp,0,100,info) && ombra){
+        if(this->hit(*temp,0.01,100,info) && ombra){
             I+=atenuacio*A;
         }else{
             I+=atenuacio*(A+D+S);

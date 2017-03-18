@@ -30,6 +30,7 @@ public:
     // es crida a cada pixel. Tambe es crida en calcular les ombres o les reflexions.
     vec3 ComputeColor (Ray &ray, int depth );
     vec3 ambientLight;
+    int MAXDEPTH;
 
 
     // Vector d'objectes continguts a l'escena
