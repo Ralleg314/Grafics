@@ -9,7 +9,7 @@ Scene::Scene()
     float aperture = 0.1;
     int pixelsX = 600;
     int pixelsY = 400;
-    MAXDEPTH = 1;
+    MAXDEPTH = 10;
     cam = new Camera(lookfrom, lookat, vec3(0,1,0), 20, pixelsX, pixelsY, aperture, dist_to_focus);
 
    // TODO: Cal crear els objectes de l'escena
@@ -47,6 +47,8 @@ void Scene::RandomScene() {
 
     objects.push_back(new Sphere(vec3(0, 0, -1), 0.5, new Lambertian(vec3(0.5, 0.5, 0.5),vec3(0.2,0.2,0.2),vec3(1.0,1.0,1.0),10.0)));
     objects.push_back(new Sphere(vec3(0,-100.5,-1), 100, new Lambertian(vec3(0.8, 0.8, 0.0),vec3(0.2,0.2,0.2),vec3(1.0,1.0,1.0),10.0)));
+    objects.push_back(new Sphere(vec3(-3,1,1), 1.0, new Metal(vec3(0.7, 0.6, 0.5),vec3(0.2,0.2,0.2),vec3(0.7,0.7,0.7),10.0)));
+    objects.push_back(new Sphere(vec3(0,1,0), 1.0, new Metal(vec3(0.7, 0.6, 0.5),vec3(0.2,0.2,0.2),vec3(0.7,0.7,0.7),10.0)));
     //objects.push_back(new Sphere(vec3(1,-1,-1), 0.5, new Lambertian(vec3(0.8, 0.6, 0.2))));
     //objects.push_back(new Sphere(vec3(-1,-1,-1), 0.5, new Lambertian(vec3(0.6, 0.8, 0.2))));
     //objects.push_back(new Sphere(vec3(-1,0,-1), -0.45, new Lambertian(vec3(0.2, 0.6, 0.8))));
@@ -106,7 +108,7 @@ vec3 Scene::ComputeColor (Ray &ray, int depth ) {
        Inicialment s'ha posat la direccio del raig per tenir un color diferents per a cada pixel pero
        hitInfo ha d'anar tenint el color actualitzat segons els rebots.
     */
-     if(!this->hit(ray,0,1000,h)){
+     if(!this->hit(ray,0.01,100,h)){
          color = t*blue+(1-t)*white;
      }else{
          color = this->blinnPhong(h.p,h.normal,h.mat_ptr,true);

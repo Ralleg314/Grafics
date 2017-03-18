@@ -10,8 +10,8 @@ Metal::Metal(const vec3& diffuse, const vec3& ambient, const vec3& specular, flo
 }
 
 bool Metal::scatter(const Ray& r_in, const HitInfo& rec, vec3& color, Ray& scattered) const  {
-    vec3 target = rec.p + rec.normal + this->RandomInSphere();
+    vec3 target = r_in.direction - float(2)*rec.normal*dot(r_in.direction,rec.normal);
     scattered = Ray(rec.p, target-rec.p);
-    color = diffuse;
+    color = specular;
     return true;
 }
