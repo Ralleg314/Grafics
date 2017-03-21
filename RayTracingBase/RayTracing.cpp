@@ -72,7 +72,7 @@ void Render()
                 Ray r = scene->cam->getRay(u, v);
                 sumColor += scene->ComputeColor(r,0);
             }
-            col = sumColor/(float)numSamples;
+            col = sqrt(sumColor/(float)numSamples);
 #ifdef GLUT
             float pixelX =  2*((x+0.5f)/scene->cam->viewportX)-1;
             float pixelY = 2*((y+0.5f)/scene->cam->viewportY)-1;
