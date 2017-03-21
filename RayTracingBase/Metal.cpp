@@ -11,7 +11,7 @@ Metal::Metal(const vec3& diffuse, const vec3& ambient, const vec3& specular, flo
 }
 
 bool Metal::scatter(const Ray& r_in, const HitInfo& rec, vec3& color, Ray& scattered) const  {
-    vec3 target = r_in.direction - float(2)*rec.normal*dot(r_in.direction,rec.normal);
+    vec3 target = r_in.direction - 2.0f*rec.normal*dot(r_in.direction,rec.normal);
     scattered = Ray(rec.p, target+this->fuzzy*RandomInSphere());
     color = specular;
     return true;
