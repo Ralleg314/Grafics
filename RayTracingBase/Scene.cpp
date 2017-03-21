@@ -48,7 +48,7 @@ void Scene::RandomScene() {
     objects.push_back(new Sphere(vec3(0, 0, -1), 0.5, new Lambertian(vec3(0.5, 0.5, 0.5),vec3(0.2,0.2,0.2),vec3(1.0,1.0,1.0),10.0)));
     objects.push_back(new Sphere(vec3(0,-100.5,-1), 100, new Lambertian(vec3(0.8, 0.8, 0.0),vec3(0.2,0.2,0.2),vec3(1.0,1.0,1.0),10.0)));
     objects.push_back(new Sphere(vec3(-3,1,1), 1.0, new Metal(vec3(0.7, 0.6, 0.5),vec3(0.2,0.2,0.2),vec3(0.7,0.7,0.7),10.0)));
-    objects.push_back(new Sphere(vec3(0,1,0), 1.0, new Transparent(vec3(0.7, 0.6, 0.5),vec3(0.2,0.2,0.2),vec3(0.0f),10.0,1.5)));
+    objects.push_back(new Sphere(vec3(0,1,0), 1.0, new Transparent(1.5, vec3(1.0,1.0,1.0))));
     //objects.push_back(new Sphere(vec3(1,-1,-1), 0.5, new Lambertian(vec3(0.8, 0.6, 0.2))));
     //objects.push_back(new Sphere(vec3(-1,-1,-1), 0.5, new Lambertian(vec3(0.6, 0.8, 0.2))));
     //objects.push_back(new Sphere(vec3(-1,0,-1), -0.45, new Lambertian(vec3(0.2, 0.6, 0.8))));
