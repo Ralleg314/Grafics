@@ -18,7 +18,12 @@ bool Transparent::scatter(const Ray& r_in, const HitInfo& rec, vec3& color, Ray&
         N=normalize(rec.normal);
     }
     float c_theta=dot(-normalize(r_in.direction),normalize(N));
-    scattered=Ray(rec.p,-(this->ref*r_in.direction)+(N)*float((this->ref)*c_theta - sqrt(1-pow(this->ref,2)*(1-pow(c_theta,2)))));
+    if(1-pow(this->ref,2)*(1-pow(c_theta,2))>=0){
+        scattered=Ray(rec.p,-(this->ref*r_in.direction)+N*float((this->ref)*c_theta - sqrt(1-pow(this->ref,2)*(1-pow(c_theta,2)))));
+    }else{
+        vec3 target = r_in.direction - float(2)*rec.normal*dot(r_in.direction,rec.normal);
+        scattered = Ray(rec.p, target);
+    }
     color = diffuse;
     return true;
 }
