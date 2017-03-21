@@ -4,6 +4,7 @@ Transparent::Transparent(float ref, vec3 Kt)
 {
     this->ref=1.0f/ref;
     this->Kt=Kt;
+    this->diffuse=vec3(1.0f)-Kt;
 }
 
 bool Transparent::scatter(const Ray& r_in, const HitInfo& rec, vec3& color, Ray& scattered) const  {
@@ -25,7 +26,7 @@ bool Transparent::scatter(const Ray& r_in, const HitInfo& rec, vec3& color, Ray&
     }else{
         vec3 target = reflect(r_in.direction, rec.normal);
         scattered = Ray(rec.p, target);
-        color = vec3(1.0f) - this->Kt;
+        color = this->diffuse;
     }
     return true;
 }
