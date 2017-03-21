@@ -111,7 +111,7 @@ vec3 Scene::ComputeColor (Ray &ray, int depth ) {
      if(!this->hit(ray,0.01,100,h)){
          color = t*blue+(1-t)*white;
      }else{
-         color = this->blinnPhong(h.p,h.normal,h.mat_ptr,true);
+         color = h.mat_ptr->diffuse * this->blinnPhong(h.p,h.normal,h.mat_ptr,true);
          if(depth<MAXDEPTH){
              h.mat_ptr->scatter(ray,h,scatterColor,scatterRay);
              color += scatterColor * this->ComputeColor(scatterRay,depth+1);
