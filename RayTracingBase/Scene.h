@@ -14,6 +14,7 @@
 #include "Lambertian.h"
 #include "Camera.h"
 #include "Metal.h"
+#include "Transparent.h"
 
 class Scene: public Hitable
 {
