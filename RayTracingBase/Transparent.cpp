@@ -11,7 +11,7 @@ bool Transparent::scatter(const Ray& r_in, const HitInfo& rec, vec3& color, Ray&
     float ref_temp;
     vec3 R=normalize(r_in.direction);
     float c_theta=dot(R,rec.normal);//Dado que ambos son unitarios, no necesitamos dividir entre su modulo
-    if(1-(pow(ref_temp,2)*(1-pow(c_theta,1)))>0){
+    if(1-(pow(this->ref,2)*(1-pow(c_theta,1)))>0){
         vec3 N;
         if(dot(R,rec.normal)>0){
             N=-rec.normal;
