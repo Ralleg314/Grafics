@@ -1,1 +1,0 @@
-# Practica2GPU2016
