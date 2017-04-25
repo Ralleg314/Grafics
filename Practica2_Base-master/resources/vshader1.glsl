@@ -11,6 +11,16 @@ IN vec4 vColor;
 
 OUT vec4 color;
 
+struct Comp
+{
+ vec3 diffuse;
+ vec3 specular;
+ vec3 ambient;
+ float shiness;
+
+};
+uniform Comp material;
+
 void main()
 {
     gl_Position = vPosition;
