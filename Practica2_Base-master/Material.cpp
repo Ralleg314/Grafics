@@ -2,10 +2,13 @@
 
 Material::Material():
     diffuse(1.0f)
+
 {}
 
 Material::~Material()
-{}
+{
+
+}
 
 vec3 Material::RandomInSphere() const {
     vec3 p;
