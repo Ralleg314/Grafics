@@ -35,6 +35,15 @@ class Light {
         void setTipusLight(const LightType &value);
 
 
+        vec3 position;
+        vec3 ambient;
+        vec3 diffuse;
+        vec3 specular;
+        float a;
+        float b;
+        float c;
+
+
 };
 
 #endif // Light_H

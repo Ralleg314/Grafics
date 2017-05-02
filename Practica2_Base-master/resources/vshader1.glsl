@@ -21,9 +21,22 @@ struct Comp
 };
 uniform Comp material;
 
+struct Light
+{
+    vec3 diffuse;
+    vec3 specular;
+    vec3 ambient;
+    float a;
+    float b;
+    float c;
+};
+uniform Light lights[3];
+
+
+
 void main()
 {
     gl_Position = vPosition;
 
-    color = vColor;
+    color = vec4(material.diffuse,1.0f);
 }

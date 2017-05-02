@@ -73,6 +73,38 @@ void Scene::setLightActual(Light* l){
  */
 void Scene::lightsToGPU(QGLShaderProgram *program){
 // TO DO: A implementar a la fase 1 de la practica 2
+    /*int MAX=lights.size();
+    struct gl_lights;
+    {
+       GLuint diffuse;
+       GLuint specular;
+       GLuint ambient;
+       GLuint a;
+       GLuint b;
+       GLuint c;
+    }
+    gl_lights gl[MAX];
+
+
+
+    for(int i = 0; i<MAX; i++){
+        gl[i].diffuse = program->uniformLocation(QString("conjunt[%1].diffuse").arg(i));
+        gl[i].specular = program->uniformLocation(QString("conjunt[%1].specular").arg(i));
+        gl[i].shiness = program->uniformLocation(QString("conjunt[%1].shiness").arg(i));
+        gl[i].a = program->uniformLocation(QString("conjunt[%1].a").arg(i));
+        gl[i].b = program->uniformLocation(QString("conjunt[%1].b").arg(i));
+        gl[i].c = program->uniformLocation(QString("conjunt[%1].c").arg(i));
+    }
+
+
+    for(int i = 0;i<MAX;i++){
+        glUniform4fv(gl[i].diffuse, 3, lights[i].diffuse);
+        glUniform4fv(gl[i].specular, 3, lights[i].specular);
+        glUniform4fv(gl[i].ambient, 3, lights[i].ambient);
+        glUniform1f(gl[i].a, lights[i].a);
+        glUniform1f(gl[i].b, lights[i].b);
+        glUniform1f(gl[i].c, lights[i].c);
+    }*/
 
 }
 

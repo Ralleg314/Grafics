@@ -1,9 +1,8 @@
 #include "Material.h"
 
-Material::Material():
-    diffuse(1.0f)
-
-{}
+Material::Material()
+    //diffuse(1.0f)
+{  diffuse=(0.0f,0.0f,1.0f);}
 
 Material::~Material()
 {
@@ -39,13 +38,11 @@ void Material::toGPU(QGLShaderProgram *program){
      gl.shiness = program->uniformLocation("material.shiness");
 
      // 3. Bind de les zones de memòria que corresponen a la GPU a valors de les variables de la CPU
-     vec3 v1,v2,v3;
-     float f;
 
-     glUniform3fv(gl.diffuse, 1, v1 ); // vector3D és una variable de tipus vec3
-     glUniform3fv(gl.specular, 1, v2 ); // vector3D és una variable de tipus vec3
-     glUniform3fv(gl.ambient, 1, v3 ); // vector3D és una variable de tipus vec3
-     glUniform1f(gl.shiness, f); // unFloat és una variable de tipus GLfloat
+     glUniform3fv(gl.diffuse, 3, diffuse ); // vector3D és una variable de tipus vec3
+     glUniform3fv(gl.specular, 3, specular ); // vector3D és una variable de tipus vec3
+     glUniform3fv(gl.ambient, 3, ambient ); // vector3D és una variable de tipus vec3
+     glUniform1f(gl.shiness, shiness); // unFloat és una variable de tipus GLfloat
 
 }
 

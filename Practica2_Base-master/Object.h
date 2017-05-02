@@ -7,6 +7,7 @@
 #include <cara.h>
 #include <QGLShaderProgram>
 #include <QOpenGLTexture>
+#include <Material.h>
 
 using namespace std;
 
@@ -35,6 +36,8 @@ protected:
     QGLShaderProgram *program;
 
 public:
+
+    Material material;
 
     Object(const int npoints, QObject *parent = 0);
     Object(const int npoints, QString n);
