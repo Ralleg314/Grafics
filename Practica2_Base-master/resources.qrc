@@ -20,5 +20,6 @@
         <file>resources/textures/2k_uranus.jpg</file>
         <file>resources/textures/2k_venus_atmosphere.jpg</file>
         <file>resources/textures/2k_venus_surface.jpg</file>
+        <file>resources/fshaderGourad.glsl</file>
     </qresource>
 </RCC>

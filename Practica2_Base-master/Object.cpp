@@ -78,7 +78,8 @@ void Object::draw(){
     program->enableAttributeArray(colorLocation);
     program->setAttributeBuffer("material.diffuse", GL_FLOAT, sizeof(point4)*Index, 4);
 
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    //glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    glPolygonMode(GL_FRONT, GL_FILL);
     glDrawArrays( GL_TRIANGLES, 0, Index );
 }
 
