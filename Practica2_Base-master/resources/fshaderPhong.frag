@@ -12,8 +12,8 @@ struct Material{
 };
 
 struct Light{
-    bool active;
-    vec3 position;
+    vec4 position;
+    vec4 direction;
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
@@ -22,6 +22,10 @@ struct Light{
     float b;
     float c;
 };
+
+vec4 getL(int);
+
+vec4 getH(vec4);
 
 uniform int llums;
 
@@ -36,4 +40,25 @@ void main(void)
     vec3 color;
 
     gl_FragColor = texture2D(qt_Texture0, qt_TexCoord0.st);
+}
+
+vec4 getL(int i){
+    if(BufferLights[i].position==vec4(0.0f)){
+        return normalize(-BufferLights[i].direction);
+    }else if(BufferLights[i].angle==0.0f){
+        return normalize(BufferLights[i].position - p);
+    }else{
+        vec4 dir=normalize(p-BufferLights[i].position);
+        if(acos(dot(dir,normalize(BufferLights[i].direction)))>BufferLights[i].angle){
+            return vec4(0.0f);
+        }else{
+            return -dir;
+        }
+    }
+    return vec4(0.0f);
+}
+
+vec4 getH(vec4 L){
+    vec4 V=vec4(0.0f,0.0f,10.0f,1.0f)-p;
+    return normalize(L+V);
 }

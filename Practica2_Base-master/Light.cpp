@@ -164,6 +164,7 @@ void Light::setTipusLight(const LightType &value)
         break;
     case Spot:
         this->position=vec4();
+        this->direction=vec4();
         this->angle=1.0f;
         break;
     }

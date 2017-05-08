@@ -227,6 +227,7 @@ void GLWidget::initShader(const char* vShaderFile, const char* fShaderFile){
  */
 void GLWidget::initShadersGPU(){
     initShader("://resources/vshader1.glsl", "://resources/fshader1.glsl");
+    initShader("://resources/vshaderGourad.vert","://resources/fshaderGourad.glsl");
 }
 
 QSize GLWidget::minimumSizeHint() const {
