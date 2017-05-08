@@ -24,13 +24,13 @@ void GLWidget::activaToonShader() {
 
 void GLWidget::activaPhongShader() {
     //A implementar a la fase 1 de la practica 2
-    cout<<"Estic a Phong"<<endl;
+    initShader("://resources/vshaderPhong.vert","://resources/fshaderPhong.frag");
 
 }
 
 void GLWidget::activaGouraudShader() {
     //A implementar a la fase 1 de la practica 2
-    cout<<"Estic a Gouraud"<<endl;
+    initShader("://resources/vshaderGouraud.vert","://resources/fshaderGouraud.glsl");
 
 }
 
@@ -227,7 +227,6 @@ void GLWidget::initShader(const char* vShaderFile, const char* fShaderFile){
  */
 void GLWidget::initShadersGPU(){
     initShader("://resources/vshader1.glsl", "://resources/fshader1.glsl");
-    initShader("://resources/vshaderGourad.vert","://resources/fshaderGourad.glsl");
 }
 
 QSize GLWidget::minimumSizeHint() const {

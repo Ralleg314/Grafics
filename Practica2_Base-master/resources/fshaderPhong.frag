@@ -1,8 +1,16 @@
+#if __VERSION__<130
+#define IN varying
+#define OUT varying
+#else
+#define IN in
+#define OUT out
+#endif
+
 uniform sampler2D qt_Texture0;
 varying vec4 qt_TexCoord0;
 
-in vec4 p;
-in vec4 n;
+IN vec4 p;
+IN vec4 n;
 
 struct Material{
     vec3 diffuse;
@@ -17,10 +25,8 @@ struct Light{
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
-    vec3 angle;
-    float a;
-    float b;
-    float c;
+    float angle;
+    vec3 atteuation;
 };
 
 vec4 getL(int);

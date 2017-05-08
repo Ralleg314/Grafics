@@ -1,8 +1,15 @@
-in vec4 posv;
-in vec4 norv;
+#if __VERSION__<130
+#define IN varying
+#define OUT varying
+#else
+#define IN in
+#define OUT out
+#endif
+IN vec4 posv;
+IN vec4 norv;
 
-out vec4 out_pos;
-out vec4 out_norm;
+OUT vec4 out_pos;
+OUT vec4 out_norm;
 
 void main(void)
 {

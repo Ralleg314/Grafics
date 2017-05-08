@@ -1,3 +1,11 @@
+#if __VERSION__<130
+#define IN varying
+#define OUT varying
+#else
+#define IN in
+#define OUT out
+#endif
+
 attribute vec4 qt_Vertex;
 attribute vec4 qt_MultiTexCoord0;
 uniform mat4 qt_ModelViewProjectionMatrix;
