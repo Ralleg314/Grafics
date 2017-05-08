@@ -37,7 +37,7 @@ protected:
 
 public:
 
-    Material material;
+    Material *material;
 
     Object(const int npoints, QObject *parent = 0);
     Object(const int npoints, QString n);

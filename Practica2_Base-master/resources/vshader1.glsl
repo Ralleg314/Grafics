@@ -11,7 +11,7 @@ IN vec4 vColor;
 
 OUT vec4 color;
 
-struct Comp
+struct Material
 {
  vec3 diffuse;
  vec3 specular;
@@ -19,7 +19,7 @@ struct Comp
  float shiness;
 
 };
-uniform Comp material;
+uniform Material material;
 
 struct Light
 {

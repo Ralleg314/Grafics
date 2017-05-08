@@ -1,8 +1,7 @@
 #include "Material.h"
 
 Material::Material()
-    //diffuse(1.0f)
-{  diffuse=(0.0f,0.0f,1.0f);}
+{  diffuse=vec3(1.0f,0.0f,0.0f);}
 
 Material::~Material()
 {
@@ -23,6 +22,7 @@ vec3 Material::RandomInSphere() const {
  * @param program
  */
 void Material::toGPU(QGLShaderProgram *program){
+    diffuse=vec3(1.0f,0.0f,0.0f);
     // 1. Per a passar els diferents atributs del shader declarem una estructura amb els identificadors de la GPU
      struct{
         GLuint diffuse;
@@ -39,9 +39,9 @@ void Material::toGPU(QGLShaderProgram *program){
 
      // 3. Bind de les zones de memòria que corresponen a la GPU a valors de les variables de la CPU
 
-     glUniform3fv(gl.diffuse, 3, diffuse ); // vector3D és una variable de tipus vec3
-     glUniform3fv(gl.specular, 3, specular ); // vector3D és una variable de tipus vec3
-     glUniform3fv(gl.ambient, 3, ambient ); // vector3D és una variable de tipus vec3
+     glUniform3fv(gl.diffuse, 1, diffuse ); // vector3D és una variable de tipus vec3
+     glUniform3fv(gl.specular, 1, specular ); // vector3D és una variable de tipus vec3
+     glUniform3fv(gl.ambient, 1, ambient ); // vector3D és una variable de tipus vec3
      glUniform1f(gl.shiness, shiness); // unFloat és una variable de tipus GLfloat
 
 }

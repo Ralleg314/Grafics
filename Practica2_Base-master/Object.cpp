@@ -11,6 +11,7 @@ Object::Object(int npoints, QObject *parent) : QObject(parent){
     points = new point4[numPoints];
     normals= new point4[numPoints];
     colors = new point4[numPoints];
+    material=new Material();
  }
 
 /**
@@ -22,6 +23,7 @@ Object::Object(int npoints, QString n) : numPoints(npoints){
     points = new point4[numPoints];
     normals= new point4[numPoints];
     colors = new point4[numPoints];
+    material=new Material();
 
     readObj(n);
     make();
@@ -35,6 +37,7 @@ Object::~Object(){
     delete points;
     delete normals;
     delete colors;
+    delete material;
 }
 
 /**
@@ -63,7 +66,9 @@ void Object::draw(){
     // TO  DO: A modificar a la fase 1 de la practica 2
     // Cal passar les normals a la GPU
 
-    material.toGPU(program);
+
+    material->toGPU(program);
+
 
     // Aqui es torna a repetir el pas de dades a la GPU per si hi ha més d'un objecte
     glBindBuffer( GL_ARRAY_BUFFER, buffer );
