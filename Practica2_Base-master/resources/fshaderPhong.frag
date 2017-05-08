@@ -22,11 +22,11 @@ struct Material{
 struct Light{
     vec4 position;
     vec4 direction;
-    vec3 ambient;
     vec3 diffuse;
     vec3 specular;
+    vec3 ambient;
     float angle;
-    vec3 atteuation;
+    vec3 attenuation;
 };
 
 vec4 getL(int);
@@ -44,8 +44,22 @@ uniform vec3 ambientGlobal;
 void main(void)
 {
     vec3 color;
+    vec3 tmpD,tmpS,tmpA;
+    vec4 L,H,N=normalize(n);
+    for(int i=0;i<llums;i++){
 
-    gl_FragColor = texture2D(qt_Texture0, qt_TexCoord0.st);
+        L=getL(i);
+        tmpD=BufferMaterial.diffuse*BufferLights[i].diffuse*max(dot(L,N),0.0f);
+
+        H=getH(L);
+        tmpS=BufferMaterial.specular*BufferLights[i].specular*pow(max(dot(N,H),0.0f),BufferMaterial.shiness);
+
+        tmpA=BufferLights[i].ambient*BufferMaterial.ambient;
+
+        color+=tmpD+tmpS+tmpA;
+    }
+    color+=ambientGlobal*BufferMaterial.ambient;
+    gl_FragColor = vec4(color[0],color[1],color[2],1.0f);
 }
 
 vec4 getL(int i){

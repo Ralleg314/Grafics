@@ -8,12 +8,12 @@
 IN vec4 posv;
 IN vec4 norv;
 
-OUT vec4 out_pos;
-OUT vec4 out_norm;
+OUT vec4 p;
+OUT vec4 n;
 
 void main(void)
 {
     gl_Position = posv;
-    out_pos = posv;
-    out_norm = norv;
+    p = posv;
+    n = norv;
 }
