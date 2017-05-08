@@ -5,8 +5,12 @@
  * @param t
  */
 Light::Light(LightType t) {
-
-
+    this->diffuse=vec3();
+    this->specular=vec3();
+    this->ambient=vec3();
+    this->attenuation=vec3();
+    this->active=true;
+    setTipusLight(t);
 }
 
 
@@ -33,11 +37,11 @@ void Light::setDiffuseIntensity(vec3 i) {
 }
 vec4 Light::getLightPosition() {
     // A canviar
-    return(vec4(0.0, 0.0, 0.0, 0.0));
+    return this->position;
 }
 
 void Light::setLightPosition(vec4 v) {
-
+    this->position=v;
 }
 
 /**
@@ -46,6 +50,7 @@ void Light::setLightPosition(vec4 v) {
 void Light::switchOnOff() {
     // TO DO: A canviar a la fase 1 de la practica 2
     // Si esta en on la posa a off i a l'inreves
+    this->active=!this->active;
  }
 
 /**
@@ -56,7 +61,7 @@ vec3 Light::getIa() const
 {
     // TO DO: A canviar a la fase 1 de la practica 2
 
-       return(vec3(1.0, 1.0, 1.0));
+       return this->ambient;
 }
 
 /**
@@ -67,7 +72,7 @@ void Light::setIa(const vec3 &value)
 {
     // TO DO: A canviar a la fase 1 de la practica 2
     // el float que es reb ha de multiplicar els tres valors de la intensitat difusa de la Light
-
+    this->ambient*=value;
 }
 
 
@@ -80,7 +85,7 @@ vec3 Light::getIs() const
 {
     // TO DO: A canviar a la fase 1 de la practica 2
 
-       return(vec3(1.0, 1.0, 1.0));
+       return this->specular;
 }
 
 /**
@@ -91,7 +96,7 @@ void Light::setIs(const vec3 &value)
 {
     // TO DO: A canviar a la fase 1 de la practica 2
     // el float que es reb ha de multiplicar els tres valors de la intensitat difusa de la Light
-
+    this->specular*=value;
 }
 
 /**
@@ -100,9 +105,7 @@ void Light::setIs(const vec3 &value)
  */
 vec3 Light::getCoeficients() const
 {
-    // TO DO: A canviar a la fase 1 de la practica 2
-
-       return(vec3(1.0, 1.0, 1.0));
+       return this->attenuation;
 }
 
 /**
@@ -111,9 +114,7 @@ vec3 Light::getCoeficients() const
  */
 void Light::setCoeficients(const vec3 &value)
 {
-    // TO DO: A canviar a la fase 1 de la practica 2
-    // el float que es reb ha de multiplicar els tres valors de la intensitat difusa de la Light
-
+    this->attenuation=value;
 }
 
 /**
@@ -122,9 +123,7 @@ void Light::setCoeficients(const vec3 &value)
  */
 bool Light::getEstaActivat() const
 {
-    // TO DO: A canviar a la fase 1 de la practica 2
-
-       return(true);
+    return this->active;
 }
 
 /**
@@ -133,8 +132,7 @@ bool Light::getEstaActivat() const
  */
 void Light::setEstaActivat(bool value)
 {
-    // TO DO: A canviar a la fase 1 de la practica 2
-
+    this->active=value;
 }
 
 /**
@@ -143,8 +141,13 @@ void Light::setEstaActivat(bool value)
  */
 LightType Light::getTipusLight() const
 {
-    // TO DO: A canviar a la fase 1 de la practica 2
-    return Puntual;
+    if(this->position==vec4(0.0f)){
+        return Direccional;
+    }else if(this->angle==0.0f){
+        return Puntual;
+    }else{
+        return Spot;
+    }
 }
 /**
  * @brief Light::setTipusLight
@@ -152,5 +155,16 @@ LightType Light::getTipusLight() const
  */
 void Light::setTipusLight(const LightType &value)
 {
-    // TO DO: A canviar a la fase 1 de la practica 2
+    switch(value){
+    case Puntual:
+        this->position=vec4();
+        break;
+    case Direccional:
+        this->direction=vec4();
+        break;
+    case Spot:
+        this->position=vec4();
+        this->angle=1.0f;
+        break;
+    }
 }

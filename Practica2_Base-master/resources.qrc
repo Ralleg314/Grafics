@@ -21,5 +21,8 @@
         <file>resources/textures/2k_venus_atmosphere.jpg</file>
         <file>resources/textures/2k_venus_surface.jpg</file>
         <file>resources/fshaderGourad.glsl</file>
+        <file>resources/vshaderGourad.vert</file>
+        <file>resources/vshaderPhong.vert</file>
+        <file>resources/fshaderPhong.frag</file>
     </qresource>
 </RCC>

@@ -45,4 +45,7 @@ OTHER_FILES += \
 
 RESOURCES += resources.qrc
 
-DISTFILES +=
+DISTFILES += \
+    resources/vshadergourad.vert \
+    resources/fshaderphong.frag \
+    resources/vshaderphong.vert
