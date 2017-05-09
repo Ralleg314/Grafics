@@ -24,18 +24,20 @@ vec3 Material::RandomInSphere() const {
 void Material::toGPU(QGLShaderProgram *program){
     diffuse=vec3(1.0f,0.0f,0.0f);
     // 1. Per a passar els diferents atributs del shader declarem una estructura amb els identificadors de la GPU
-     struct{
+     struct gl_Material{
         GLuint diffuse;
         GLuint specular;
         GLuint ambient;
         GLuint shiness;
-     } gl;
+     };
+
+     gl_Material gl;
 
      // 2. obtencio dels identificadors de la GPU
-     gl.diffuse = program->uniformLocation("material.diffuse");
-     gl.specular = program->uniformLocation("material.specular");
-     gl.ambient = program->uniformLocation("material.ambient");
-     gl.shiness = program->uniformLocation("material.shiness");
+     gl.diffuse = program->uniformLocation("BufferMaterial.diffuse");
+     gl.specular = program->uniformLocation("BufferMaterial.specular");
+     gl.ambient = program->uniformLocation("BufferMaterial.ambient");
+     gl.shiness = program->uniformLocation("BufferMaterial.shiness");
 
      // 3. Bind de les zones de memòria que corresponen a la GPU a valors de les variables de la CPU
 

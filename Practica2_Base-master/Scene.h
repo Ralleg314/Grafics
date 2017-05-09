@@ -37,6 +37,7 @@ public:
 
     void lightsToGPU(QGLShaderProgram *program);
     void setAmbientToGPU(QGLShaderProgram *program);
+    void objectsToGPU(QGLShaderProgram *program);
 
     vector<Object*> elements;
     vector<Light*>  lights;

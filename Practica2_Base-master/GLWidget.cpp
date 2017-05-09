@@ -25,13 +25,13 @@ void GLWidget::activaToonShader() {
 void GLWidget::activaPhongShader() {
     //A implementar a la fase 1 de la practica 2
     initShader("://resources/vshaderPhong.glsl","://resources/fshaderPhong.glsl");
-
+    updateShader();
 }
 
 void GLWidget::activaGouraudShader() {
     //A implementar a la fase 1 de la practica 2
     initShader("://resources/vshaderGourad.glsl","://resources/fshaderGouraud.glsl");
-
+    updateShader();
 }
 
 void GLWidget::activaPhongTex() {
@@ -48,7 +48,12 @@ void GLWidget::activaGouraudTex() {
 //Metode  per canviar de shaders.
 void GLWidget::updateShader(){
     //A implementar a la fase 1 de la practica 2
-
+    this->scene->lightsToGPU(program);
+    this->scene->setAmbientToGPU(program);
+    for(int i=0;i<scene->elements.size();i++){
+        scene->elements[i]->toGPU(program);
+    }
+    updateGL();
 }
 
 //Metode per canviar de shaders de textures
@@ -220,6 +225,7 @@ void GLWidget::initShader(const char* vShaderFile, const char* fShaderFile){
     program->addShader(fshader);
     program->link();
     program->bind();
+    updateShader();
 }
 
 /**

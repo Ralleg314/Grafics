@@ -75,15 +75,20 @@ void Object::draw(){
 
     glBufferSubData( GL_ARRAY_BUFFER, 0, sizeof(point4)*Index, &points[0] );
     glBufferSubData( GL_ARRAY_BUFFER, sizeof(point4)*Index, sizeof(point4)*Index, &colors[0] );
+    glBufferSubData( GL_ARRAY_BUFFER, sizeof(point4)*Index*2, sizeof(point4)*Index, &normals[0] );
 
     int vertexLocation = program->attributeLocation("vPosition");
     int colorLocation = program->attributeLocation("material.diffuse");
+    int normalLocation = program->attributeLocation("vNormal");
 
     program->enableAttributeArray(vertexLocation);
     program->setAttributeBuffer("vPosition", GL_FLOAT, 0, 4);
 
     program->enableAttributeArray(colorLocation);
     program->setAttributeBuffer("material.diffuse", GL_FLOAT, sizeof(point4)*Index, 4);
+
+    program->enableAttributeArray(normalLocation);
+    program->setAttributeBuffer("vNormal", GL_FLOAT, sizeof(point4)*Index*2, 4);
 
     //glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     glPolygonMode(GL_FRONT, GL_FILL);

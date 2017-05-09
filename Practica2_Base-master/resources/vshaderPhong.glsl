@@ -5,15 +5,15 @@
 #define IN in
 #define OUT out
 #endif
-IN vec4 posv;
-IN vec4 norv;
+IN vec4 vPosition;
+IN vec4 vNormal;
 
 OUT vec4 p;
 OUT vec4 n;
 
 void main(void)
 {
-    gl_Position = posv;
-    p = posv;
-    n = norv;
+    gl_Position = vPosition;
+    p = vPosition;
+    n = vNormal;
 }

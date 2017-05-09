@@ -9,8 +9,8 @@
 uniform sampler2D qt_Texture0;
 varying vec4 qt_TexCoord0;
 
-IN vec4 p;
-IN vec4 n;
+IN vec4 vPosition;
+IN vec4 vNormal;
 
 OUT vec4 color;
 
@@ -47,7 +47,7 @@ void main(void)
 {
     vec3 color_temp;
     vec3 tmpD,tmpS,tmpA;
-    vec4 L,H,N=normalize(n);
+    vec4 L,H,N=normalize(vNormal);
     for(int i=0;i<llums;i++){
 
         L=getL(i);
@@ -61,16 +61,17 @@ void main(void)
         color_temp+=tmpD+tmpS+tmpA;
     }
     color_temp+=ambientGlobal*BufferMaterial.ambient;
-    color = vec4(color[0],color[1],color[2],1.0f);
+    color = vec4(1,0,0,1.0f);
+    gl_Position=vPosition;
 }
 
 vec4 getL(int i){
     if(BufferLights[i].position==vec4(0.0f)){
         return normalize(-BufferLights[i].direction);
     }else if(BufferLights[i].angle==0.0f){
-        return normalize(BufferLights[i].position - p);
+        return normalize(BufferLights[i].position - vPosition);
     }else{
-        vec4 dir=normalize(p-BufferLights[i].position);
+        vec4 dir=normalize(vPosition-BufferLights[i].position);
         if(acos(dot(dir,normalize(BufferLights[i].direction)))>BufferLights[i].angle){
             return vec4(0.0f);
         }else{
@@ -81,6 +82,6 @@ vec4 getL(int i){
 }
 
 vec4 getH(vec4 L){
-    vec4 V=vec4(0.0f,0.0f,10.0f,1.0f)-p;
+    vec4 V=vec4(0.0f,0.0f,10.0f,1.0f)-vPosition;
     return normalize(L+V);
 }
