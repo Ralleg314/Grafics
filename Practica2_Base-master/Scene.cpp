@@ -106,13 +106,14 @@ void Scene::lightsToGPU(QGLShaderProgram *program){
         glUniform3fv(gl[i].ambient, 1, lights[i]->ambient);
         glUniform1f(gl[i].angle, lights[i]->angle);
         glUniform3fv(gl[i].attenuation, 1, lights[i]->attenuation);
+        this->lights[i]->id=i;
     }
-
+    GLuint llums = program->uniformLocation("llums");
+    glUniform1i(llums,MAX);
 }
 
 void Scene::addLight(Light *l) {
     lights.push_back(l);
-
 }
 
 /**

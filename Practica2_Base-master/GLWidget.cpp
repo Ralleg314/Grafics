@@ -24,13 +24,13 @@ void GLWidget::activaToonShader() {
 
 void GLWidget::activaPhongShader() {
     //A implementar a la fase 1 de la practica 2
-    initShader("://resources/vshaderPhong.vert","://resources/fshaderPhong.frag");
+    initShader("://resources/vshaderPhong.glsl","://resources/fshaderPhong.glsl");
 
 }
 
 void GLWidget::activaGouraudShader() {
     //A implementar a la fase 1 de la practica 2
-    initShader("://resources/vshaderGouraud.vert","://resources/fshaderGouraud.glsl");
+    initShader("://resources/vshaderGourad.glsl","://resources/fshaderGouraud.glsl");
 
 }
 

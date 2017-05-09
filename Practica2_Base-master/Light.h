@@ -42,7 +42,7 @@ class Light {
         vec3 specular;
         float angle;
         vec3 attenuation;
-
+        int id;
 
 };
 
