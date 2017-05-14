@@ -226,6 +226,9 @@ void GLWidget::initShader(const char* vShaderFile, const char* fShaderFile){
     program->link();
     program->bind();
     updateShader();
+
+
+
 }
 
 /**

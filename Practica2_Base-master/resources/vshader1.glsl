@@ -19,7 +19,7 @@ struct Material
  float shiness;
 
 };
-uniform Material material;
+uniform Material BufferMaterial;
 
 struct Light
 {
@@ -38,5 +38,5 @@ void main()
 {
     gl_Position = vPosition;
 
-    color = vec4(material.diffuse,1.0f);
+    color = vec4(BufferMaterial.diffuse,1.0f);
 }
