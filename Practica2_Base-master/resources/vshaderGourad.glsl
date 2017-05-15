@@ -40,6 +40,8 @@ uniform Light BufferLights[20];
 
 uniform vec3 ambientGlobal;
 
+uniform mat4 model_view;
+
 void main(void)
 {
     vec3 color_temp;
@@ -57,8 +59,8 @@ void main(void)
 
         color_temp+=tmpD+tmpS+tmpA+ambientGlobal;
     }
-    color = vec4(1,0,0,1.0f);
-    gl_Position=vPosition;
+    color = vec4(1,1,0,1.0f);
+    gl_Position=model_view*vPosition;
 }
 
 vec4 getL(int i){

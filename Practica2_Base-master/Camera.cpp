@@ -29,6 +29,7 @@ Camera::Camera(vec4 lookfrom, vec4 lookat, vec4 vup, float vfov, int viewX, int 
     CalculaModelView();
     CalculaProjection();
 
+
 }
 
 Camera::Camera()
@@ -136,6 +137,9 @@ void Camera::toGPU(QGLShaderProgram *program)
 {
 // TO DO: A implementar a la fase 1 de la practica 2 i
     // a la fase 2 de la practica 2
+    model_view = program->uniformLocation("model_view");
+    glUniformMatrix4fv(model_view, 1,  GL_TRUE, modView);
+
 }
 
 void Camera::setModelView(QGLShaderProgram *program, mat4 m)

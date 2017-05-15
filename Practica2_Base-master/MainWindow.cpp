@@ -32,6 +32,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(this->ui->action_environmental_mapping, SIGNAL(triggered()), glWidget, SLOT(activaEnvMapping()));
     connect(this->ui->action_afegeix_llum_puntual, SIGNAL(triggered()), glWidget, SLOT(ensenyaMenuLight0()));
 
+
+
 }
 MainWindow::~MainWindow()
 {

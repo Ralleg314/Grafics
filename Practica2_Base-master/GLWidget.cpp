@@ -8,6 +8,7 @@ GLWidget::GLWidget(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers), p
     setFocusPolicy( Qt::StrongFocus );
     scene = new Scene();
     camera = new Camera();
+
 }
 
 GLWidget::~GLWidget() {
@@ -27,6 +28,7 @@ void GLWidget::activaPhongShader() {
     program=programsList[2];
     program->link();
     program->bind();
+    camera->toGPU(program);
 }
 
 void GLWidget::activaGouraudShader() {
@@ -34,6 +36,12 @@ void GLWidget::activaGouraudShader() {
     program=programsList[1];
     program->link();
     program->bind();
+    camera->toGPU(program);
+
+
+
+
+
 }
 
 void GLWidget::activaPhongTex() {
@@ -61,6 +69,7 @@ void GLWidget::updateShader(){
 //Metode per canviar de shaders de textures
 void GLWidget::updateShaderTexture(){
     //A implementar a la fase 1 de la practica 2
+
 
 }
 void GLWidget::ensenyaMenuLight0() {
