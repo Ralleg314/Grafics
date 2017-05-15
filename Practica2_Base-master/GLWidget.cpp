@@ -24,14 +24,16 @@ void GLWidget::activaToonShader() {
 
 void GLWidget::activaPhongShader() {
     //A implementar a la fase 1 de la practica 2
-    initShader("://resources/vshaderPhong.glsl","://resources/fshaderPhong.glsl");
-    updateShader();
+    program=programsList[2];
+    program->link();
+    program->bind();
 }
 
 void GLWidget::activaGouraudShader() {
     //A implementar a la fase 1 de la practica 2
-    initShader("://resources/vshaderGourad.glsl","://resources/fshaderGouraud.glsl");
-    updateShader();
+    program=programsList[1];
+    program->link();
+    program->bind();
 }
 
 void GLWidget::activaPhongTex() {
@@ -213,29 +215,30 @@ void GLWidget::Zoom (int positiu) {
 
 }
 
-void GLWidget::initShader(const char* vShaderFile, const char* fShaderFile){
+QGLShaderProgram* GLWidget::initShader(const char* vShaderFile, const char* fShaderFile){
     QGLShader *vshader = new QGLShader(QGLShader::Vertex, this);
     QGLShader *fshader = new QGLShader(QGLShader::Fragment, this);
 
     vshader->compileSourceFile(vShaderFile);
     fshader->compileSourceFile(fShaderFile);
 
-    program = new QGLShaderProgram(this);
-    program->addShader(vshader);
-    program->addShader(fshader);
-    program->link();
-    program->bind();
-    updateShader();
+    QGLShaderProgram* temp = new QGLShaderProgram(this);
+    temp->addShader(vshader);
+    temp->addShader(fshader);
 
-
-
+    return temp;
 }
 
 /**
  * @brief GLWidget::initShadersGPU
  */
 void GLWidget::initShadersGPU(){
-    initShader("://resources/vshader1.glsl", "://resources/fshader1.glsl");
+    this->programsList[0]=initShader("://resources/vshader1.glsl", "://resources/fshader1.glsl");
+    this->programsList[1]=initShader("://resources/vshaderGourad.glsl","://resources/fshaderGouraud.glsl");
+    this->programsList[2]=initShader("://resources/vshaderPhong.glsl","://resources/fshaderPhong.glsl");
+    program=programsList[0];
+    program->link();
+    program->bind();
 }
 
 QSize GLWidget::minimumSizeHint() const {
@@ -267,6 +270,11 @@ void GLWidget::initializeGL() {
 void GLWidget::paintGL() {
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
     camera->toGPU(program);
+    scene->lightsToGPU(program);
+    scene->setAmbientToGPU(program);
+    for (int i=0; i<scene->elements.size(); i++){
+        scene->elements[i]->toGPU(program);
+    }
     scene->draw();
 }
 

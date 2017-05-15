@@ -22,7 +22,6 @@ vec3 Material::RandomInSphere() const {
  * @param program
  */
 void Material::toGPU(QGLShaderProgram *program){
-    diffuse=vec3(1.0f,0.0f,0.0f);
     // 1. Per a passar els diferents atributs del shader declarem una estructura amb els identificadors de la GPU
      struct gl_Material{
         GLuint diffuse;

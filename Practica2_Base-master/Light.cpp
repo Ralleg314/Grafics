@@ -6,7 +6,7 @@
  */
 Light::Light(LightType t) {
     this->diffuse=vec3(0.8,0.8,0.8);
-    this->specular=vec3();
+    this->specular=vec3(1.0f);
     this->ambient=vec3(0.2,0.2,0.2);
     this->attenuation=vec3(1.0,1.0,1.0);
     this->active=true;

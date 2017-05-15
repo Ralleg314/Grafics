@@ -6,9 +6,6 @@
 #define OUT out
 #endif
 
-uniform sampler2D qt_Texture0;
-varying vec4 qt_TexCoord0;
-
 IN vec4 p;
 IN vec4 n;
 
@@ -37,7 +34,7 @@ uniform int llums;
 
 uniform Material BufferMaterial;
 
-uniform Light BufferLights[10];
+uniform Light BufferLights[20];
 
 uniform vec3 ambientGlobal;
 

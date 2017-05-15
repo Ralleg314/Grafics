@@ -6,9 +6,6 @@
 #define OUT out
 #endif
 
-uniform sampler2D qt_Texture0;
-varying vec4 qt_TexCoord0;
-
 IN vec4 vPosition;
 IN vec4 vNormal;
 
@@ -39,7 +36,7 @@ uniform int llums;
 
 uniform Material BufferMaterial;
 
-uniform Light BufferLights[10];
+uniform Light BufferLights[20];
 
 uniform vec3 ambientGlobal;
 
@@ -47,7 +44,7 @@ void main(void)
 {
     vec3 color_temp;
     vec3 tmpD,tmpS,tmpA;
-    vec4 L,H,N=normalize(vNormal);
+    vec4 L,H,N=vNormal;
     for(int i=0;i<llums;i++){
 
         L=getL(i);
@@ -58,9 +55,8 @@ void main(void)
 
         tmpA=BufferLights[i].ambient*BufferMaterial.ambient;
 
-        color_temp+=tmpD+tmpS+tmpA;
+        color_temp+=tmpD+tmpS+tmpA+ambientGlobal;
     }
-    color_temp+=ambientGlobal*BufferMaterial.ambient;
     color = vec4(1,0,0,1.0f);
     gl_Position=vPosition;
 }

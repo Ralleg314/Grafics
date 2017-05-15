@@ -52,7 +52,7 @@ void Object::toGPU(QGLShaderProgram *pr) {
     glGenBuffers( 1, &buffer );
     glBindBuffer( GL_ARRAY_BUFFER, buffer );
 
-    glBufferData( GL_ARRAY_BUFFER, sizeof(point4)*Index + sizeof(point4)*Index, NULL, GL_STATIC_DRAW );
+    glBufferData( GL_ARRAY_BUFFER, sizeof(point4)*Index*3, NULL, GL_STATIC_DRAW );
     glEnable( GL_DEPTH_TEST );
 
 }
@@ -69,6 +69,14 @@ void Object::draw(){
 
     material->toGPU(program);
 
+    vector<point4> tmpNormals = this->calcularNormalVertexs();
+    for(unsigned int i=0; i<cares.size(); i++){
+        for(unsigned int j=0; j<cares[i].idxVertices.size(); j++){
+            points[Index] = vertexs[cares[i].idxVertices[j]];
+            normals[Index] = tmpNormals[cares[i].idxVertices[j]];
+            Index++;
+        }
+    }
 
     // Aqui es torna a repetir el pas de dades a la GPU per si hi ha més d'un objecte
     glBindBuffer( GL_ARRAY_BUFFER, buffer );
@@ -78,20 +86,20 @@ void Object::draw(){
     glBufferSubData( GL_ARRAY_BUFFER, sizeof(point4)*Index*2, sizeof(point4)*Index, &normals[0] );
 
     int vertexLocation = program->attributeLocation("vPosition");
-    int colorLocation = program->attributeLocation("BufferMaterial.diffuse");
+    int colorLocation = program->attributeLocation("vColor");
     int normalLocation = program->attributeLocation("vNormal");
 
     program->enableAttributeArray(vertexLocation);
     program->setAttributeBuffer("vPosition", GL_FLOAT, 0, 4);
 
     program->enableAttributeArray(colorLocation);
-    program->setAttributeBuffer("BufferMaterial.diffuse", GL_FLOAT, sizeof(point4)*Index, 4);
+    program->setAttributeBuffer("vColor", GL_FLOAT, sizeof(point4)*Index, 4);
 
     program->enableAttributeArray(normalLocation);
     program->setAttributeBuffer("vNormal", GL_FLOAT, sizeof(point4)*Index*2, 4);
 
-    //glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-    glPolygonMode(GL_FRONT, GL_FILL);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    //glPolygonMode(GL_FRONT, GL_FILL);
     glDrawArrays( GL_TRIANGLES, 0, Index );
 }
 
@@ -109,12 +117,13 @@ void Object::make(){
         vec3( 0.0, 0.0, 1.0 ),
         vec3( 1.0, 1.0, 0.0 )
     };
-
+    vector<point4> tmpNormals = this->calcularNormalVertexs();
     Index = 0;
     for(unsigned int i=0; i<cares.size(); i++){
         for(unsigned int j=0; j<cares[i].idxVertices.size(); j++){
             points[Index] = vertexs[cares[i].idxVertices[j]];
             colors[Index] = vec4(base_colors[j%4], 1.0);
+            normals[Index] = tmpNormals[cares[i].idxVertices[j]];
             Index++;
         }
     }
@@ -315,4 +324,24 @@ void Object::construeix_cara ( char **words, int nwords) {
     }
     face.color = vec4(1.0, 0.0, 0.0, 1.0);
     this->cares.push_back(face);
+}
+
+vector<vec4> Object::calcularNormalVertexs(){
+    vector<vec4> normals(numPoints);
+    for (int i=0; i < cares.size(); i++){
+        cares[i].calculaNormal(vertexs);
+        for (int j=0; j < cares[i].idxVertices.size(); j++){
+            int id = cares[i].idxVertices[j];
+            normals[id] += vec4(
+               cares[i].normal[0],
+               cares[i].normal[1],
+               cares[i].normal[2],
+               0.0
+            );
+        }
+    }
+    for (int i=0; i < normals.size(); i++){
+        normals[i] = normalize(normals[i]); // We normalize the vector
+    }
+    return normals;
 }

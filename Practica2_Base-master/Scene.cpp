@@ -75,7 +75,8 @@ void Scene::setLightActual(Light* l){
  */
 void Scene::lightsToGPU(QGLShaderProgram *program){
     int MAX=lights.size();
-    struct gl_lights{
+
+    struct{
         GLuint position;
         GLuint direction;
         GLuint diffuse;
@@ -83,31 +84,24 @@ void Scene::lightsToGPU(QGLShaderProgram *program){
         GLuint ambient;
         GLuint angle;
         GLuint attenuation;
-    };
-    gl_lights gl[MAX];
-
+    }gl_lights[MAX];
 
 
     for(int i = 0; i<MAX; i++){
-        gl[i].position = program->uniformLocation(QString("BufferLights[%1].position").arg(i));
-        gl[i].direction = program->uniformLocation(QString("BufferLights[%1].direction").arg(i));
-        gl[i].diffuse = program->uniformLocation(QString("BufferLights[%1].diffuse").arg(i));
-        gl[i].specular = program->uniformLocation(QString("BufferLights[%1].specular").arg(i));
-        gl[i].ambient = program->uniformLocation(QString("BufferLights[%1].ambient").arg(i));
-        gl[i].angle = program->uniformLocation(QString("BufferLights[%1].angle").arg(i));
-        gl[i].attenuation = program->uniformLocation(QString("BufferLights[%1].atteuation").arg(i));
-    }
-
-
-    for(int i = 0;i<MAX;i++){
-        glUniform4fv(gl[i].position, 1, lights[i]->position);
-        glUniform4fv(gl[i].direction, 1, lights[i]->direction);
-        glUniform3fv(gl[i].diffuse, 1, lights[i]->diffuse);
-        glUniform3fv(gl[i].specular, 1, lights[i]->specular);
-        glUniform3fv(gl[i].ambient, 1, lights[i]->ambient);
-        glUniform1f(gl[i].angle, lights[i]->angle);
-        glUniform3fv(gl[i].attenuation, 1, lights[i]->attenuation);
-        this->lights[i]->id=i;
+        gl_lights[i].position = program->uniformLocation(QString("BufferLights[%1].position").arg(i));
+        gl_lights[i].direction = program->uniformLocation(QString("BufferLights[%1].direction").arg(i));
+        gl_lights[i].diffuse = program->uniformLocation(QString("BufferLights[%1].diffuse").arg(i));
+        gl_lights[i].specular = program->uniformLocation(QString("BufferLights[%1].specular").arg(i));
+        gl_lights[i].ambient = program->uniformLocation(QString("BufferLights[%1].ambient").arg(i));
+        gl_lights[i].angle = program->uniformLocation(QString("BufferLights[%1].angle").arg(i));
+        gl_lights[i].attenuation = program->uniformLocation(QString("BufferLights[%1].atteuation").arg(i));
+        glUniform4fv(gl_lights[i].position, 1, lights[i]->position);
+        glUniform4fv(gl_lights[i].direction, 1, lights[i]->direction);
+        glUniform3fv(gl_lights[i].diffuse, 1, lights[i]->diffuse);
+        glUniform3fv(gl_lights[i].specular, 1, lights[i]->specular);
+        glUniform3fv(gl_lights[i].ambient, 1, lights[i]->ambient);
+        glUniform1f(gl_lights[i].angle, lights[i]->angle);
+        glUniform3fv(gl_lights[i].attenuation, 1, lights[i]->attenuation);
     }
     GLuint llums = program->uniformLocation("llums");
     glUniform1i(llums,MAX);

@@ -69,8 +69,9 @@ private:
 
     QGLShaderProgram *program; // Per ars nomes es té un parell vertex-fragment
                                // Cal guardar-ne més d'un en la primera fase.
+    QGLShaderProgram *programsList[10];
 
-    void initShader(const char* vertexShaderFile, const char* fragmentShaderFile);
+    QGLShaderProgram* initShader(const char* vertexShaderFile, const char* fragmentShaderFile);
     void initShadersGPU();
     void updateShader();
     void updateShaderTexture();

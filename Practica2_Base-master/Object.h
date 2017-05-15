@@ -58,6 +58,7 @@ private:
 
     void construeix_cara ( char **words, int nwords);
     void initTextura();
+    vector<vec4> calcularNormalVertexs();
 };
 
 
