@@ -28,7 +28,7 @@ void GLWidget::activaPhongShader() {
     program=programsList[2];
     program->link();
     program->bind();
-    camera->toGPU(program);
+
 }
 
 void GLWidget::activaGouraudShader() {
@@ -36,11 +36,6 @@ void GLWidget::activaGouraudShader() {
     program=programsList[1];
     program->link();
     program->bind();
-    camera->toGPU(program);
-
-
-
-
 
 }
 
@@ -58,6 +53,7 @@ void GLWidget::activaGouraudTex() {
 //Metode  per canviar de shaders.
 void GLWidget::updateShader(){
     //A implementar a la fase 1 de la practica 2
+    this->camera->toGPU(program);
     this->scene->lightsToGPU(program);
     this->scene->setAmbientToGPU(program);
     for(int i=0;i<scene->elements.size();i++){
