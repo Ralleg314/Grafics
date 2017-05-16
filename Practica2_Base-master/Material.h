@@ -21,9 +21,6 @@ public:
 
     void toGPU(QGLShaderProgram *program);
 
-protected:
-    vec3 RandomInSphere() const;
-
 
 
 };

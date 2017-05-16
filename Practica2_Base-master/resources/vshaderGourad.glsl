@@ -32,6 +32,8 @@ vec4 getL(int);
 
 vec4 getH(vec4);
 
+float atenuate(int j);
+
 uniform int llums;
 
 uniform Material BufferMaterial;
@@ -44,9 +46,10 @@ uniform mat4 model_view;
 
 void main(void)
 {
+    gl_Position=vPosition;
     vec3 color_temp;
     vec3 tmpD,tmpS,tmpA;
-    vec4 L,H,N=vNormal;
+    vec4 L,H,N=normalize(vNormal);
     for(int i=0;i<llums;i++){
 
         L=getL(i);
@@ -57,10 +60,9 @@ void main(void)
 
         tmpA=BufferLights[i].ambient*BufferMaterial.ambient;
 
-        color_temp+=tmpD+tmpS+tmpA+ambientGlobal;
+        color_temp+=atenuate(i)*(tmpD+tmpS+tmpA)+ambientGlobal*BufferMaterial.ambient;
     }
-    color = vec4(color_temp,1.0f);
-    gl_Position=vPosition;
+    color = vec4(color_temp[0],color_temp[1],color_temp[2],1.0f);
 }
 
 vec4 getL(int i){
@@ -70,7 +72,8 @@ vec4 getL(int i){
         return normalize(BufferLights[i].position - vPosition);
     }else{
         vec4 dir=normalize(vPosition-BufferLights[i].position);
-        if(acos(dot(dir,normalize(BufferLights[i].direction)))>BufferLights[i].angle){
+        float angle = dot(dir,normalize(BufferLights[i].direction));
+        if(acos(angle)>BufferLights[i].angle){
             return vec4(0.0f);
         }else{
             return -dir;
@@ -80,6 +83,15 @@ vec4 getL(int i){
 }
 
 vec4 getH(vec4 L){
-    vec4 V=vec4(0.0f,0.0f,10.0f,1.0f)-vPosition;
-    return normalize(L+V);
+    vec4 V=normalize(vec4(0.0f,0.0f,10.0f,1.0f)-vPosition);
+    return L+V;
+}
+
+float atenuate(int j){
+    vec4 rayDirection = BufferLights[j].position - vPosition;
+    float a = BufferLights[j].attenuation[0];
+    float b = BufferLights[j].attenuation[1];
+    float c = BufferLights[j].attenuation[2];
+    float d = length(rayDirection);
+    return 1.0/(a + b*d + c*d*d);
 }

@@ -42,6 +42,6 @@ void Cara::calculaNormal(vector<Vertices> &v)
   normal.x *= 0.5;
   normal.y *= 0.5;
   normal.z *= 0.5;
-//  normal.normalize();
+  normal = normalize(normal);
 }
 

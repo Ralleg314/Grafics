@@ -5,10 +5,10 @@
  * @param t
  */
 Light::Light(LightType t) {
-    this->diffuse=vec3(0.8,0.8,0.8);
+    this->diffuse=vec3(0.8f);
     this->specular=vec3(1.0f);
-    this->ambient=vec3(0.2,0.2,0.2);
-    this->attenuation=vec3(1.0,1.0,1.0);
+    this->ambient=vec3(0.2f);
+    this->attenuation=vec3(1.0,0.0,0.0);
     this->active=true;
     setTipusLight(t);
 }
@@ -30,9 +30,10 @@ vec3 Light::getDiffuseIntensity() {
  * @brief Light::setDiffuseIntensity
  * @param i
  */
-void Light::setDiffuseIntensity(vec3 i) {
+void Light::setDiffuseIntensity(vec3 v) {
     // TO DO: A canviar a la fase 1 de la practica 2
     // el float que es reb ha de multiplicar els tres valors de la intensitat difusa de la Light
+    this->diffuse*=v;
 
 }
 vec4 Light::getLightPosition() {

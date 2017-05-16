@@ -275,9 +275,7 @@ void GLWidget::paintGL() {
     camera->toGPU(program);
     scene->lightsToGPU(program);
     scene->setAmbientToGPU(program);
-    for (int i=0; i<scene->elements.size(); i++){
-        scene->elements[i]->toGPU(program);
-    }
+    scene->objectsToGPU(program);
     scene->draw();
 }
 

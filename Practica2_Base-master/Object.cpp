@@ -65,10 +65,9 @@ void Object::toGPU(QGLShaderProgram *pr) {
 void Object::draw(){
     // TO  DO: A modificar a la fase 1 de la practica 2
     // Cal passar les normals a la GPU
-
-
     material->toGPU(program);
 
+    Index=0;
     vector<point4> tmpNormals = this->calcularNormalVertexs();
     for(unsigned int i=0; i<cares.size(); i++){
         for(unsigned int j=0; j<cares[i].idxVertices.size(); j++){
@@ -99,7 +98,6 @@ void Object::draw(){
     program->setAttributeBuffer("vNormal", GL_FLOAT, sizeof(point4)*Index*2, 4);
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-    //glPolygonMode(GL_FRONT, GL_FILL);
     glDrawArrays( GL_TRIANGLES, 0, Index );
 }
 
@@ -117,7 +115,9 @@ void Object::make(){
         vec3( 0.0, 0.0, 1.0 ),
         vec3( 1.0, 1.0, 0.0 )
     };
+
     vector<point4> tmpNormals = this->calcularNormalVertexs();
+
     Index = 0;
     for(unsigned int i=0; i<cares.size(); i++){
         for(unsigned int j=0; j<cares[i].idxVertices.size(); j++){
@@ -332,16 +332,11 @@ vector<vec4> Object::calcularNormalVertexs(){
         cares[i].calculaNormal(vertexs);
         for (int j=0; j < cares[i].idxVertices.size(); j++){
             int id = cares[i].idxVertices[j];
-            normals[id] += vec4(
-               cares[i].normal[0],
-               cares[i].normal[1],
-               cares[i].normal[2],
-               0.0
-            );
+            normals[id] += vec4(cares[i].normal[0],cares[i].normal[1],cares[i].normal[2],0.0);
         }
     }
     for (int i=0; i < normals.size(); i++){
-        normals[i] = normalize(normals[i]); // We normalize the vector
+        normals[i] = normalize(normals[i]);
     }
     return normals;
 }
