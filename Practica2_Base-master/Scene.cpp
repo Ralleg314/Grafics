@@ -123,7 +123,9 @@ void Scene::setAmbientToGPU(QGLShaderProgram *program){
 
 void Scene::objectsToGPU(QGLShaderProgram *program)
 {
-
+    for(int i=0;i<elements.size();i++){
+        elements[i]->toGPU(program);
+    }
 }
 
 

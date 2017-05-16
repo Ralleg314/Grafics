@@ -1,5 +1,5 @@
 #if __VERSION__<130
-#define IN varying
+#define IN attribute
 #define OUT varying
 #else
 #define IN in

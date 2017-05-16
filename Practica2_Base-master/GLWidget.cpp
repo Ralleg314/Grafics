@@ -56,9 +56,7 @@ void GLWidget::updateShader(){
     this->camera->toGPU(program);
     this->scene->lightsToGPU(program);
     this->scene->setAmbientToGPU(program);
-    for(int i=0;i<scene->elements.size();i++){
-        scene->elements[i]->toGPU(program);
-    }
+    this->scene->objectsToGPU(program);
     updateGL();
 }
 

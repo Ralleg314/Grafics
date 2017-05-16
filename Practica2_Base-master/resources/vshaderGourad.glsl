@@ -1,5 +1,5 @@
 #if __VERSION__<130
-#define IN varying
+#define IN attribute
 #define OUT varying
 #else
 #define IN in
@@ -59,8 +59,8 @@ void main(void)
 
         color_temp+=tmpD+tmpS+tmpA+ambientGlobal;
     }
-    color = vec4(1,1,0,1.0f);
-    gl_Position=model_view*vPosition;
+    color = vec4(color_temp,1.0f);
+    gl_Position=vPosition;
 }
 
 vec4 getL(int i){
