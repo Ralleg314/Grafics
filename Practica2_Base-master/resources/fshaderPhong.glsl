@@ -14,6 +14,7 @@ struct Material{
     vec3 specular;
     vec3 ambient;
     float shiness;
+    //float alpha;
 };
 
 struct Light{
@@ -80,7 +81,7 @@ vec4 getL(int i){
 
 vec4 getH(vec4 L){
     vec4 V=normalize(vec4(0.0f,0.0f,10.0f,1.0f)-p);
-    return L+V;
+    return normalize(L+V);
 }
 
 float atenuate(int i){
