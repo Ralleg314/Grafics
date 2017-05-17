@@ -55,10 +55,10 @@ void main(void)
 
         tmpA=BufferLights[i].ambient*BufferMaterial.ambient;
 
-        color+=atenuate(i)*(tmpD+tmpS+tmpA)+ambientGlobal*BufferMaterial.ambient;
+        color+=(tmpD+tmpS+tmpA)*atenuate(i)+ambientGlobal*BufferMaterial.ambient;
 
     }
-    gl_FragColor = vec4(color[0],color[1],color[2],1.0f);
+    gl_FragColor = vec4(color,1.0f);
 }
 
 vec4 getL(int i){
@@ -83,11 +83,11 @@ vec4 getH(vec4 L){
     return L+V;
 }
 
-float atenuate(int j){
-    vec4 rayDirection = BufferLights[j].position - p;
-    float a = BufferLights[j].attenuation[0];
-    float b = BufferLights[j].attenuation[1];
-    float c = BufferLights[j].attenuation[2];
+float atenuate(int i){
+    vec4 rayDirection = BufferLights[i].position - p;
+    float a = BufferLights[i].attenuation[0];
+    float b = BufferLights[i].attenuation[1];
+    float c = BufferLights[i].attenuation[2];
     float d = length(rayDirection);
-    return 1.0/(a + b*d + c*pow(d,2));
+    return 1.0/(a + b*d + c*d*d);
 }

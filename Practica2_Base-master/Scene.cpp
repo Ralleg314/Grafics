@@ -92,7 +92,7 @@ void Scene::lightsToGPU(QGLShaderProgram *program){
         gl_lights[i].specular = program->uniformLocation(QString("BufferLights[%1].specular").arg(i));
         gl_lights[i].ambient = program->uniformLocation(QString("BufferLights[%1].ambient").arg(i));
         gl_lights[i].angle = program->uniformLocation(QString("BufferLights[%1].angle").arg(i));
-        gl_lights[i].attenuation = program->uniformLocation(QString("BufferLights[%1].atteuation").arg(i));
+        gl_lights[i].attenuation = program->uniformLocation(QString("BufferLights[%1].attenuation").arg(i));
         glUniform4fv(gl_lights[i].position, 1, lights[i]->position);
         glUniform4fv(gl_lights[i].direction, 1, lights[i]->direction);
         glUniform3fv(gl_lights[i].diffuse, 1, lights[i]->diffuse);

@@ -52,7 +52,7 @@ void Object::toGPU(QGLShaderProgram *pr) {
     glGenBuffers( 1, &buffer );
     glBindBuffer( GL_ARRAY_BUFFER, buffer );
 
-    glBufferData( GL_ARRAY_BUFFER, sizeof(point4)*Index*3, NULL, GL_STATIC_DRAW );
+    glBufferData( GL_ARRAY_BUFFER, sizeof(point4)*Index * 3 + sizeof(vec2) * Index, NULL, GL_STATIC_DRAW );
     glEnable( GL_DEPTH_TEST );
 
 }

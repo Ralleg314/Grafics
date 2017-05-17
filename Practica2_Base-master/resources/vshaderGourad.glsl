@@ -47,7 +47,7 @@ uniform mat4 model_view;
 void main(void)
 {
     gl_Position=vPosition;
-    vec3 color_temp;
+    vec3 color_temp=vec3(0.0f);
     vec3 tmpD,tmpS,tmpA;
     vec4 L,H,N=normalize(vNormal);
     for(int i=0;i<llums;i++){
@@ -60,9 +60,9 @@ void main(void)
 
         tmpA=BufferLights[i].ambient*BufferMaterial.ambient;
 
-        color_temp+=atenuate(i)*(tmpD+tmpS+tmpA)+ambientGlobal*BufferMaterial.ambient;
+        color_temp+=(tmpD+tmpS+tmpA)*atenuate(i)+ambientGlobal*BufferMaterial.ambient;
     }
-    color = vec4(color_temp[0],color_temp[1],color_temp[2],1.0f);
+    color = vec4(color_temp,1.0f);
 }
 
 vec4 getL(int i){

@@ -8,7 +8,7 @@ Light::Light(LightType t) {
     this->diffuse=vec3(0.8f);
     this->specular=vec3(1.0f);
     this->ambient=vec3(0.2f);
-    this->attenuation=vec3(1.0,0.0,0.0);
+    this->attenuation=vec3(1.0f,0.0f,0.0f);
     this->active=true;
     setTipusLight(t);
 }
@@ -160,17 +160,17 @@ void Light::setTipusLight(const LightType &value)
     case Puntual:
         this->position=vec4(2.0,2.0,2.0,1.0);
         this->direction=vec4(0.0,0.0,0.0,0.0);
-        this->angle=0.0f;
+        this->angle=0.0;
         break;
     case Direccional:
         this->position=vec4(0.0,0.0,0.0,0.0);
         this->direction=vec4(2.0,2.0,2.0,0.0);
-        this->angle=0.0f;
+        this->angle=0.0;
         break;
     case Spot:
         this->position=vec4(0.0, -1.0, 0.0, 1.0);
         this->direction=vec4(0.0, 1.0, 0.0, 0.0);
-        this->angle=1.0f;
+        this->angle=1.0;
         break;
     }
 }
