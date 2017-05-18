@@ -47,7 +47,7 @@ uniform mat4 model_view;
 
 void main(void)
 {
-    gl_Position=vPosition;
+    gl_Position=model_view*vPosition;
     vec3 color_temp=vec3(0.0f);
     vec3 tmpD,tmpS,tmpA;
     vec4 L,H,N=normalize(vNormal);

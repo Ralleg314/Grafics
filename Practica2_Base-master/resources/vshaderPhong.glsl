@@ -11,9 +11,11 @@ IN vec4 vNormal;
 OUT vec4 p;
 OUT vec4 n;
 
+uniform mat4 model_view;
+
 void main(void)
 {
-    gl_Position = vPosition;
+    gl_Position = model_view*vPosition;
     p = vPosition;
     n = vNormal;
 }

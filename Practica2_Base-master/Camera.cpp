@@ -145,11 +145,13 @@ void Camera::toGPU(QGLShaderProgram *program)
 void Camera::setModelView(QGLShaderProgram *program, mat4 m)
 {
  // TO DO: A implementar a la fase 2 de la practica 2
+    glMultMatrixf(m);
 }
 
 void Camera::setProjection(QGLShaderProgram *program, mat4 p)
 {
     // TO DO: A implementar a la fase 2 de la practica 2
+
 }
 
 void Camera::setViewport(int x, int y, int a, int h)
