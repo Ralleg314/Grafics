@@ -82,10 +82,12 @@ void Object::draw(){
 
     Index=0;
     vector<point4> tmp_n = calculateNormals();
+    vector<vec2> tmp_c = calculateCoordinates(tmp_n);
     for(unsigned int i=0; i<cares.size(); i++){
         for(unsigned int j=0; j<cares[i].idxVertices.size(); j++){
             points[Index] = vertexs[cares[i].idxVertices[j]];
             normals[Index] = tmp_n[cares[i].idxVertices[j]];
+            coords[Index] = tmp_c[cares[i].idxVertices[j]];
             Index++;
         }
     }
@@ -126,6 +128,8 @@ void Object::drawTexture(){
     // S'ha d'activar la textura i es passa a la GPU
     program->setUniformValue("texture", 0);
 
+    //coords=
+
     glBufferSubData( GL_ARRAY_BUFFER, sizeof(point4)*Index*3, sizeof(vec2)*Index, &coords[0] );
 
     int coordsLocation = program->attributeLocation("vCoords");
@@ -162,6 +166,8 @@ void Object::make(){
             Index++;
         }
     }
+
+    initTextura();
 }
 
 
@@ -176,7 +182,6 @@ void Object::initTextura()
     texture = new QOpenGLTexture(QImage("://resources/textures/earth1.png"));
     texture->setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);
     texture->setMagnificationFilter(QOpenGLTexture::Linear);
-
     texture->bind(0);
  }
 
@@ -352,9 +357,9 @@ vector<vec4> Object::calculateNormals(){
 }
 
 vector<vec2> Object::calculateCoordinates(vector<vec4> n){
-    vector<vec2> coords(vertexs.size());
+    vector<vec2> coordsTmp(numPoints);
     for(int i=0;i<vertexs.size();i++){
-        coords[i] = vec2(0.5-atan2(n[i].z,n[i].x)/(2*M_PI),0.5-asin(n[i].y)/M_PI);
+        coordsTmp[i] = vec2(0.5-atan2(n[i].z,n[i].x)/(2*M_PI),0.5-asin(n[i].y)/M_PI);
     }
-    return coords;
+    return coordsTmp;
 }

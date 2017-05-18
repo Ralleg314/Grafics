@@ -7,9 +7,11 @@
 #endif
 IN vec4 vPosition;
 IN vec4 vNormal;
+IN vec2 vCoords;
 
 OUT vec4 p;
 OUT vec4 n;
+OUT vec2 coord;
 
 uniform mat4 model_view;
 
@@ -18,4 +20,5 @@ void main(void)
     gl_Position = model_view*vPosition;
     p = vPosition;
     n = vNormal;
+    coord = vCoords;
 }

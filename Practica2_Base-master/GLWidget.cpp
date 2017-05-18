@@ -41,7 +41,9 @@ void GLWidget::activaGouraudShader() {
 
 void GLWidget::activaPhongTex() {
     //A implementar a la fase 1 de la practica 2
-    cout<<"Estic a Phong Tex"<<endl;
+    program=programsList[4];
+    program->link();
+    program->bind();
 }
 
 void GLWidget::activaGouraudTex() {
@@ -241,6 +243,7 @@ void GLWidget::initShadersGPU(){
     this->programsList[1]=initShader("://resources/vshaderGourad.glsl","://resources/fshaderGouraud.glsl");
     this->programsList[2]=initShader("://resources/vshaderPhong.glsl","://resources/fshaderPhong.glsl");
     this->programsList[3]=initShader("://resources/vshaderGouradTexture.glsl","://resources/fshaderGouraudTexture.glsl");
+    this->programsList[4]=initShader("://resources/vshaderPhongTexture.glsl","://resources/fshaderPhongTexture.glsl");
     program=programsList[0];
     program->link();
     program->bind();

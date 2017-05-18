@@ -8,6 +8,7 @@
 
 IN vec4 p;
 IN vec4 n;
+IN vec2 coord;
 
 struct Material{
     vec3 diffuse;
@@ -39,6 +40,8 @@ uniform Material BufferMaterial;
 
 uniform Light BufferLights[20];
 
+uniform sampler2D texture;
+
 uniform vec3 ambientGlobal;
 
 void main(void)
@@ -59,7 +62,7 @@ void main(void)
         color+=(tmpD+tmpS+tmpA)*atenuate(i)+ambientGlobal*BufferMaterial.ambient;
 
     }
-    gl_FragColor = vec4(color,1.0f);
+    gl_FragColor = 0.25*vec4(color,1.0f) + 0.75*texture2D(texture, coord);
 }
 
 vec4 getL(int i){
