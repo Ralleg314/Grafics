@@ -10,6 +10,7 @@ Object::Object(int npoints, QObject *parent) : QObject(parent){
     numPoints = npoints;
     points = new point4[numPoints];
     normals= new point4[numPoints];
+    coords = new vec2[numPoints];
     colors = new point4[numPoints];
     material=new Material();
  }
@@ -22,6 +23,7 @@ Object::Object(int npoints, QObject *parent) : QObject(parent){
 Object::Object(int npoints, QString n) : numPoints(npoints){
     points = new point4[numPoints];
     normals= new point4[numPoints];
+    coords = new vec2[numPoints];
     colors = new point4[numPoints];
     material=new Material();
 
@@ -36,6 +38,7 @@ Object::Object(int npoints, QString n) : numPoints(npoints){
 Object::~Object(){
     delete points;
     delete normals;
+    delete coords;
     delete colors;
     delete material;
 }
@@ -55,6 +58,16 @@ void Object::toGPU(QGLShaderProgram *pr) {
     glBufferData( GL_ARRAY_BUFFER, sizeof(point4)*Index * 3 + sizeof(vec2) * Index, NULL, GL_STATIC_DRAW );
     glEnable( GL_DEPTH_TEST );
 
+    toGPUTexture(pr);
+}
+
+/**
+ * @brief Object::toGPUTexture
+ * @param pr
+ */
+void Object::toGPUTexture(QGLShaderProgram *pr) {
+    program = pr;
+    glEnable( GL_TEXTURE_2D );
 }
 
 
@@ -68,11 +81,11 @@ void Object::draw(){
     material->toGPU(program);
 
     Index=0;
-    vector<point4> tmpNormals = this->calcularNormalVertexs();
+    vector<point4> tmp_n = calculateNormals();
     for(unsigned int i=0; i<cares.size(); i++){
         for(unsigned int j=0; j<cares[i].idxVertices.size(); j++){
             points[Index] = vertexs[cares[i].idxVertices[j]];
-            normals[Index] = tmpNormals[cares[i].idxVertices[j]];
+            normals[Index] = tmp_n[cares[i].idxVertices[j]];
             Index++;
         }
     }
@@ -97,8 +110,28 @@ void Object::draw(){
     program->enableAttributeArray(normalLocation);
     program->setAttributeBuffer("vNormal", GL_FLOAT, sizeof(point4)*Index*2, 4);
 
+    drawTexture();
+
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     glDrawArrays( GL_TRIANGLES, 0, Index );
+}
+
+/**
+ * Pintat en la GPU.
+ * @brief Object::drawTexture
+ */
+void Object::drawTexture(){
+
+    // TO DO: Cal implementar en la fase 2 de la practica 2
+    // S'ha d'activar la textura i es passa a la GPU
+    program->setUniformValue("texture", 0);
+
+    glBufferSubData( GL_ARRAY_BUFFER, sizeof(point4)*Index*3, sizeof(vec2)*Index, &coords[0] );
+
+    int coordsLocation = program->attributeLocation("vCoords");
+
+    program->enableAttributeArray(coordsLocation);
+    program->setAttributeBuffer("vCoords", GL_FLOAT, sizeof(point4)*Index*3, 2);
 }
 
 /**
@@ -116,46 +149,20 @@ void Object::make(){
         vec3( 1.0, 1.0, 0.0 )
     };
 
-    vector<point4> tmpNormals = this->calcularNormalVertexs();
+    vector<vec4> tmp_n = calculateNormals();
+    vector<vec2> tmp_t = calculateCoordinates(tmp_n);
 
     Index = 0;
     for(unsigned int i=0; i<cares.size(); i++){
         for(unsigned int j=0; j<cares[i].idxVertices.size(); j++){
             points[Index] = vertexs[cares[i].idxVertices[j]];
             colors[Index] = vec4(base_colors[j%4], 1.0);
-            normals[Index] = tmpNormals[cares[i].idxVertices[j]];
+            normals[Index] = tmp_n[cares[i].idxVertices[j]];
+            coords[Index] = tmp_t[cares[i].idxVertices[j]];
             Index++;
         }
     }
 }
-
-
-
-
-/**
- * @brief Object::toGPUTexture
- * @param pr
- */
-void Object::toGPUTexture(QGLShaderProgram *pr) {
-    program = pr;
-
-// TO DO: Cal implementar en la fase 2 de la practica 2
-// S'ha d'activar la textura i es passa a la GPU
-
-}
-
-
-/**
- * Pintat en la GPU.
- * @brief Object::drawTexture
- */
-void Object::drawTexture(){
-
-    // TO DO: Cal implementar en la fase 2 de la practica 2
-    // S'ha d'activar la textura i es passa a la GPU
-
-}
-
 
 
 /**
@@ -165,8 +172,12 @@ void Object::initTextura()
  {
     // TO DO: A implementar a la fase 2 de la practica 2
     // Cal inicialitzar la textura de l'objecte: veure l'exemple del CubGPUTextura
-    qDebug() << "Initializing textures...";
+    glActiveTexture(GL_TEXTURE0);
+    texture = new QOpenGLTexture(QImage("://resources/textures/earth1.png"));
+    texture->setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);
+    texture->setMagnificationFilter(QOpenGLTexture::Linear);
 
+    texture->bind(0);
  }
 
 
@@ -326,17 +337,24 @@ void Object::construeix_cara ( char **words, int nwords) {
     this->cares.push_back(face);
 }
 
-vector<vec4> Object::calcularNormalVertexs(){
+vector<vec4> Object::calculateNormals(){
     vector<vec4> normals(numPoints);
     for (int i=0; i < cares.size(); i++){
         cares[i].calculaNormal(vertexs);
         for (int j=0; j < cares[i].idxVertices.size(); j++){
-            int id = cares[i].idxVertices[j];
-            normals[id] += vec4(cares[i].normal[0],cares[i].normal[1],cares[i].normal[2],0.0);
+            normals[cares[i].idxVertices[j]] += vec4(cares[i].normal,0.0);
         }
     }
     for (int i=0; i < normals.size(); i++){
         normals[i] = normalize(normals[i]);
     }
     return normals;
+}
+
+vector<vec2> Object::calculateCoordinates(vector<vec4> n){
+    vector<vec2> coords(vertexs.size());
+    for(int i=0;i<vertexs.size();i++){
+        coords[i] = vec2(0.5-atan2(n[i].z,n[i].x)/(2*M_PI),0.5-asin(n[i].y)/M_PI);
+    }
+    return coords;
 }

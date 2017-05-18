@@ -46,8 +46,9 @@ void GLWidget::activaPhongTex() {
 
 void GLWidget::activaGouraudTex() {
     //A implementar a la fase 1 de la practica 2
-
-    this->updateShaderTexture();
+    program=programsList[3];
+    program->link();
+    program->bind();
 }
 
 //Metode  per canviar de shaders.
@@ -239,6 +240,7 @@ void GLWidget::initShadersGPU(){
     this->programsList[0]=initShader("://resources/vshader1.glsl", "://resources/fshader1.glsl");
     this->programsList[1]=initShader("://resources/vshaderGourad.glsl","://resources/fshaderGouraud.glsl");
     this->programsList[2]=initShader("://resources/vshaderPhong.glsl","://resources/fshaderPhong.glsl");
+    this->programsList[3]=initShader("://resources/vshaderGouradTexture.glsl","://resources/fshaderGouraudTexture.glsl");
     program=programsList[0];
     program->link();
     program->bind();

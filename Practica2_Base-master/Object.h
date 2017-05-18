@@ -27,6 +27,7 @@ protected:
     int     numPoints;
     point4 *points;
     point4 *normals;
+    vec2 *coords;
 
     // Els colors s'usen en la primera execució però després son prescindibles
     point4 *colors;
@@ -58,7 +59,9 @@ private:
 
     void construeix_cara ( char **words, int nwords);
     void initTextura();
-    vector<vec4> calcularNormalVertexs();
+    vector<vec4> calculateNormals();
+    vector<vec2> calculateCoordinates(vector<vec4> normals);
+    QOpenGLTexture *texture;
 };
 
 
