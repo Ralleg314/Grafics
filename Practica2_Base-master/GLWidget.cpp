@@ -20,7 +20,9 @@ GLWidget::~GLWidget() {
 
 void GLWidget::activaToonShader() {
     //A implementar a la fase 1 de la practica 2
-    cout<<"Estic a Toon"<<endl;
+    program=programsList[5];
+    program->link();
+    program->bind();
 }
 
 void GLWidget::activaPhongShader() {
@@ -244,6 +246,7 @@ void GLWidget::initShadersGPU(){
     this->programsList[2]=initShader("://resources/vshaderPhong.glsl","://resources/fshaderPhong.glsl");
     this->programsList[3]=initShader("://resources/vshaderGouradTexture.glsl","://resources/fshaderGouraudTexture.glsl");
     this->programsList[4]=initShader("://resources/vshaderPhongTexture.glsl","://resources/fshaderPhongTexture.glsl");
+    this->programsList[5]=initShader("://resources/vshaderToon.glsl","://resources/fshaderToon.glsl");
     program=programsList[0];
     program->link();
     program->bind();

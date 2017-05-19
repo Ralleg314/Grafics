@@ -16,5 +16,7 @@
         <file>resources/models/sphere1.mtl</file>
         <file>resources/models/sphereSky.mtl</file>
         <file>resources/textures/earth1.png</file>
+        <file>resources/vshaderToon.glsl</file>
+        <file>resources/fshaderToon.glsl</file>
     </qresource>
 </RCC>
