@@ -1,5 +1,5 @@
 #if __VERSION__<130
-#define IN varying
+#define IN attribute
 #define OUT varying
 #else
 #define IN in
@@ -17,7 +17,8 @@ uniform mat4 model_view;
 
 void main()
 {
-        n = vNormal;
-        p = ftransform();
+    gl_Position=model_view*vPosition;
+    n = vNormal;
+    p = vPosition;
 
 }

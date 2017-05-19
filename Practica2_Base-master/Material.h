@@ -18,7 +18,7 @@ public:
     vec3 specular;
     vec3 ambient;
     float shiness;
-    //float alpha;
+    float alpha;
 
     void toGPU(QGLShaderProgram *program);
 

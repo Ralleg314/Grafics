@@ -14,7 +14,7 @@ struct Material{
     vec3 specular;
     vec3 ambient;
     float shiness;
-    //float alpha;
+    float alpha;
 };
 
 struct Light{
@@ -59,7 +59,7 @@ void main(void)
         color+=(tmpD+tmpS+tmpA)*atenuate(i)+ambientGlobal*BufferMaterial.ambient;
 
     }
-    gl_FragColor = vec4(color,1.0f);
+    gl_FragColor = vec4(color,BufferMaterial.alpha);
 }
 
 vec4 getL(int i){
