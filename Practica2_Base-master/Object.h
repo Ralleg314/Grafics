@@ -40,6 +40,8 @@ public:
 
     Material *material;
 
+    QOpenGLTexture *texture;
+
     Object(const int npoints, QObject *parent = 0);
     Object(const int npoints, QString n);
     ~Object();
@@ -61,7 +63,7 @@ private:
     void initTextura();
     vector<vec4> calculateNormals();
     vector<vec2> calculateCoordinates(vector<vec4> normals);
-    QOpenGLTexture *texture;
+
 };
 
 

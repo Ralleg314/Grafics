@@ -18,5 +18,8 @@
         <file>resources/textures/earth1.png</file>
         <file>resources/vshaderToon.glsl</file>
         <file>resources/fshaderToon.glsl</file>
+        <file>resources/vshaderBump.glsl</file>
+        <file>resources/fshaderBump.glsl</file>
+        <file>resources/textures/earth3.png</file>
     </qresource>
 </RCC>

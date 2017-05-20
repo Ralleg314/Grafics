@@ -139,6 +139,27 @@ void GLWidget::activateLight(){
 
 void GLWidget::activaBumpMapping() {
     //TO DO: a implementar a la fase 2 de la practica 2
+
+
+    for(int i=0;i<this->scene->elements.size();i++){
+            glActiveTexture(GL_TEXTURE0);
+        this->scene->elements.at(i)->texture = new QOpenGLTexture(QImage("://resources/textures/earth1.png"));
+        this->scene->elements.at(i)->texture->setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);
+        this->scene->elements.at(i)->texture->setMagnificationFilter(QOpenGLTexture::Linear);
+        this->scene->elements.at(i)->texture->bind(0);
+            glActiveTexture(GL_TEXTURE1);
+        this->scene->elements.at(i)->texture = new QOpenGLTexture(QImage("://resources/textures/earth3.png"));
+        this->scene->elements.at(i)->texture->setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);
+        this->scene->elements.at(i)->texture->setMagnificationFilter(QOpenGLTexture::Linear);
+        this->scene->elements.at(i)->texture->bind(1);
+    }
+
+    program=programsList[6];
+    program->link();
+    program->bind();
+
+
+
 }
 
 void GLWidget::activaEnvMapping() {
@@ -247,6 +268,7 @@ void GLWidget::initShadersGPU(){
     this->programsList[3]=initShader("://resources/vshaderGouradTexture.glsl","://resources/fshaderGouraudTexture.glsl");
     this->programsList[4]=initShader("://resources/vshaderPhongTexture.glsl","://resources/fshaderPhongTexture.glsl");
     this->programsList[5]=initShader("://resources/vshaderToon.glsl","://resources/fshaderToon.glsl");
+    this->programsList[6]=initShader("://resources/vshaderBump.glsl","://resources/fshaderBump.glsl");
     program=programsList[0];
     program->link();
     program->bind();
