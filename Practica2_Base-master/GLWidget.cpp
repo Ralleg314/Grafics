@@ -139,7 +139,9 @@ void GLWidget::activateLight(){
 
 void GLWidget::activaBumpMapping() {
     //TO DO: a implementar a la fase 2 de la practica 2
-
+    program=programsList[6];
+    program->link();
+    program->bind();
 
     for(int i=0;i<this->scene->elements.size();i++){
             glActiveTexture(GL_TEXTURE0);
@@ -154,9 +156,7 @@ void GLWidget::activaBumpMapping() {
         this->scene->elements.at(i)->texture->bind(1);
     }
 
-    program=programsList[6];
-    program->link();
-    program->bind();
+
 
 
 
