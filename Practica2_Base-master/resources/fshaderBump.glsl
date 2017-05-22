@@ -48,6 +48,7 @@ uniform vec3 ambientGlobal;
 
 void main(void)
 {
+<<<<<<< HEAD
     // lookup normal from normal map, move from [0,1] to  [-1, 1] range, normalize
     vec4 normal = 2.0 * texture2D(normals, coord) - vec4(1.0);
     normal = normalize(normal);
@@ -70,6 +71,47 @@ void main(void)
     gl_FragColor = 0.25*vec4(color,1.0f) + 0.75*texture2D(texture, coord);
 
 }
+=======
+
+    float lamberFactor;
+    vec3 diffuseMaterial;
+    vec3 diffuseLight;
+    vec3 specularMaterial;
+    vec3 specularLight;
+    vec3 temp;
+            // lookup normal from normal map, move from [0,1] to  [-1, 1] range, normalize
+            vec3 normal = 2.0 * texture2D(normalTexture, coord).rgb - 1.0;
+            normal = normalize(normal);
+
+            for(int i=0;i<llums;i++){
+                // compute diffuse lighting
+                lamberFactor += max(dot(getL(i),n),0.0);
+            }
+            // compute specular lighting
+
+
+            // compute ambient
+
+            vec3 ambientLight = ambientGlobal;
+
+            if(lamberFactor>0.0f){
+                for(int i=0;i<llums;i++){
+                    diffuseMaterial = texture2D(diffuseTexture, coord);
+                    diffuseLight = BufferLights[i].diffuse;
+
+
+                    specularMaterial = BufferMaterial.specular;
+                    specularLight = BufferLights[i].specular;
+                    //shininess = pow (max (dot (halfVec, n), 0.0), 2.0);
+                    temp += diffuseMaterial * diffuseLight * lamberFactor;
+                    temp += specularMaterial * specularLight * BufferMaterial.shiness;
+                }
+            }
+            temp += ambientLight;
+            gl_FragColor = vec4(temp,1.0f);
+
+      }
+>>>>>>> b28bfe22c00bb29573e2ea8d64b3510d9d4678e1
 
 vec4 getL(int i){
     if(BufferLights[i].position==vec4(0.0)){
