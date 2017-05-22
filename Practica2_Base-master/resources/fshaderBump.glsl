@@ -48,47 +48,46 @@ uniform vec3 ambientGlobal;
 
 void main(void)
 {
-            // lookup normal from normal map, move from [0,1] to  [-1, 1] range, normalize
-            vec3 normal = 2.0 * texture2D(normalTexture, coord[0].st).rgb - 1.0;
-            normal = normalize(normal);
 
-            float lamberFactor;
-            vec4 diffuseMaterial;
-            vec4 diffuseLight;
+    float lamberFactor;
+    vec3 diffuseMaterial;
+    vec3 diffuseLight;
+    vec3 specularMaterial;
+    vec3 specularLight;
+    vec3 temp;
+            // lookup normal from normal map, move from [0,1] to  [-1, 1] range, normalize
+            vec3 normal = 2.0 * texture2D(normalTexture, coord).rgb - 1.0;
+            normal = normalize(normal);
 
             for(int i=0;i<llums;i++){
                 // compute diffuse lighting
                 lamberFactor += max(dot(getL(i),n),0.0);
-                diffuseMaterial = 0.0;
-                diffuseLight = 0.0;
             }
             // compute specular lighting
-            vec4 specularMaterial;
-            vec4 specularLight;
-            float shininess;
+
 
             // compute ambient
-            //vec4 ambientLight = gl_LightSource[0].ambient;
-            vec4 ambientLight = ambientGlobal;
+
+            vec3 ambientLight = ambientGlobal;
 
             if(lamberFactor>0.0f){
                 for(int i=0;i<llums;i++){
-                    diffuseMaterial = texture2D (diffuseTexture, gl_TexCoord[0].st);
+                    diffuseMaterial = texture2D(diffuseTexture, coord);
                     diffuseLight = BufferLights[i].diffuse;
 
-                    // In doom3, specular value comes from a texture
-                    specularMaterial = vec4(1.0);
+
+                    specularMaterial = BufferMaterial.specular;
                     specularLight = BufferLights[i].specular;
                     //shininess = pow (max (dot (halfVec, n), 0.0), 2.0);
-
-                    gl_FragColor = diffuseMaterial * diffuseLight * lamberFactor;
-                    //gl_FragColor +=	specularMaterial * specularLight * shininess ;
-                    gl_FragColor += specularMaterial * specularLight * BufferMaterial.shiness;
+                    temp += diffuseMaterial * diffuseLight * lamberFactor;
+                    temp += specularMaterial * specularLight * BufferMaterial.shiness;
                 }
             }
-            gl_FragColor += ambientLight;
+            temp += ambientLight;
+            gl_FragColor = vec4(temp,1.0f);
 
       }
+
 vec4 getL(int i){
     if(BufferLights[i].position==vec4(0.0)){
         return normalize(-BufferLights[i].direction);
