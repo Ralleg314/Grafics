@@ -142,24 +142,6 @@ void GLWidget::activaBumpMapping() {
     program=programsList[6];
     program->link();
     program->bind();
-
-    for(int i=0;i<this->scene->elements.size();i++){
-            glActiveTexture(GL_TEXTURE0);
-        this->scene->elements.at(i)->texture = new QOpenGLTexture(QImage("://resources/textures/earth1.png"));
-        this->scene->elements.at(i)->texture->setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);
-        this->scene->elements.at(i)->texture->setMagnificationFilter(QOpenGLTexture::Linear);
-        this->scene->elements.at(i)->texture->bind(0);
-            glActiveTexture(GL_TEXTURE1);
-        this->scene->elements.at(i)->texture = new QOpenGLTexture(QImage("://resources/textures/earth3.png"));
-        this->scene->elements.at(i)->texture->setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);
-        this->scene->elements.at(i)->texture->setMagnificationFilter(QOpenGLTexture::Linear);
-        this->scene->elements.at(i)->texture->bind(1);
-    }
-
-
-
-
-
 }
 
 void GLWidget::activaEnvMapping() {

@@ -21,5 +21,6 @@
         <file>resources/vshaderBump.glsl</file>
         <file>resources/fshaderBump.glsl</file>
         <file>resources/textures/earth3.png</file>
+        <file>resources/textures/earth2.png</file>
     </qresource>
 </RCC>

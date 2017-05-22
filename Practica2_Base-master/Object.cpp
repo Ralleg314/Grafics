@@ -127,6 +127,7 @@ void Object::drawTexture(){
     // TO DO: Cal implementar en la fase 2 de la practica 2
     // S'ha d'activar la textura i es passa a la GPU
     program->setUniformValue("texture", 0);
+    program->setUniformValue("normals", 1);
 
     //coords=
 
@@ -183,6 +184,12 @@ void Object::initTextura()
     texture->setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);
     texture->setMagnificationFilter(QOpenGLTexture::Linear);
     texture->bind(0);
+
+    glActiveTexture(GL_TEXTURE0);
+    texture = new QOpenGLTexture(QImage("://resources/textures/earth2.png"));
+    texture->setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);
+    texture->setMagnificationFilter(QOpenGLTexture::Linear);
+    texture->bind(1);
  }
 
 
