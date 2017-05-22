@@ -13,9 +13,11 @@ OUT vec4 n;
 
 uniform mat4 model_view;
 
+uniform mat4 projection;
+
 void main(void)
 {
-    gl_Position = model_view*vPosition;
+    gl_Position = projection*model_view*vPosition;
     p = vPosition;
     n = vNormal;
 }

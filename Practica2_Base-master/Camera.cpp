@@ -139,6 +139,8 @@ void Camera::toGPU(QGLShaderProgram *program)
     // a la fase 2 de la practica 2
     setModelView(program, this->modView);
     setProjection(program, this->proj);
+    GLuint origin = program->uniformLocation("origin");
+    glUniform4fv(origin,1,this->origin);
 }
 
 void Camera::setModelView(QGLShaderProgram *program, mat4 m)

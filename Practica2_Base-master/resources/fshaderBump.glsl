@@ -46,11 +46,13 @@ uniform sampler2D normals;
 
 uniform vec3 ambientGlobal;
 
+uniform vec4 origin;
+
 void main(void)
 {
     // lookup normal from normal map, move from [0,1] to  [-1, 1] range, normalize
-    vec4 normal = 2.0 * texture2D(normals, coord) - vec4(1.0);
-    normal = normalize(normal);
+    vec4 normal = 2.0 * vec4(texture2D(normals, coord).rgb,0.0) - vec4(1.0,1.0,1.0,0.0);
+    //normal = normalize(normal);
     vec3 color=vec3(0.0f);
     vec3 tmpD,tmpS,tmpA;
     vec4 L,H,N=0.2*normalize(n)+0.8*normal;
@@ -89,7 +91,7 @@ vec4 getL(int i){
 }
 
 vec4 getH(vec4 L){
-    vec4 V=normalize(vec4(0.0f,0.0f,10.0f,1.0f)-p);
+    vec4 V=normalize(origin-p);
     return normalize(L+V);
 }
 

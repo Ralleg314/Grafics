@@ -47,9 +47,13 @@ uniform vec3 ambientGlobal;
 
 uniform mat4 model_view;
 
+uniform mat4 projection;
+
+uniform vec4 origin;
+
 void main(void)
 {
-    gl_Position=model_view*vPosition;
+    gl_Position=projection*model_view*vPosition;
     vec3 color_temp=vec3(0.0f);
     vec3 tmpD,tmpS,tmpA;
     vec4 L,H,N=normalize(vNormal);
@@ -87,7 +91,7 @@ vec4 getL(int i){
 }
 
 vec4 getH(vec4 L){
-    vec4 V=normalize(vec4(0.0f,0.0f,10.0f,1.0f)-vPosition);
+    vec4 V=normalize(origin-vPosition);
     return normalize(L+V);
 }
 

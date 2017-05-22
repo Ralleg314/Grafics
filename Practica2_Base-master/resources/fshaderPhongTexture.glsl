@@ -44,6 +44,8 @@ uniform sampler2D texture;
 
 uniform vec3 ambientGlobal;
 
+uniform vec4 origin;
+
 void main(void)
 {
     vec3 color=vec3(0.0f);
@@ -83,7 +85,7 @@ vec4 getL(int i){
 }
 
 vec4 getH(vec4 L){
-    vec4 V=normalize(vec4(0.0f,0.0f,10.0f,1.0f)-p);
+    vec4 V=normalize(origin-p);
     return normalize(L+V);
 }
 

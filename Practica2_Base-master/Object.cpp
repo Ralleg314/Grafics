@@ -186,7 +186,7 @@ void Object::initTextura()
     texture->bind(0);
 
     glActiveTexture(GL_TEXTURE0);
-    texture = new QOpenGLTexture(QImage("://resources/textures/earth2.png"));
+    texture = new QOpenGLTexture(QImage("://resources/textures/earth3.png"));
     texture->setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);
     texture->setMagnificationFilter(QOpenGLTexture::Linear);
     texture->bind(1);
