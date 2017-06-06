@@ -208,7 +208,7 @@ DAT.Globe = function(container, opts) {
       lng = data[i + 1];
       color = colorFnWrapper(data,i);
       size = data[i + 2];
-      size = size*250; //Cambio de altura de las barras
+      size = size*25000; //Cambio de altura de las barras
       addPoint(lat, lng, size, color, subgeo);
     }
     if (opts.animated) {
