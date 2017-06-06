@@ -187,7 +187,9 @@ DAT.Globe = function(container, opts) {
         for (i = 0; i < data.length; i += step) {
           lat = data[i];
           lng = data[i + 1];
-//        size = data[i + 2];
+          data[i+2]=data[i+2]/7269009
+          //7269009 es el total de magnitude, de esta forma normalizamos los datos.
+          size = data[i + 2];
           color = colorFnWrapper(data,i);
           size = 0;
           addPoint(lat, lng, size, color, this._baseGeometry);
