@@ -67,7 +67,7 @@ void main(void)
 
         color_temp+=(tmpD+tmpS+tmpA)*atenuate(i)+ambientGlobal*BufferMaterial.ambient;
     }
-    color = vec4(color_temp,BufferMaterial.alpha);
+    color = vec4(color_temp,0.1);
 }
 
 vec4 getL(int i){
